@@ -1,6 +1,8 @@
 package de.ascii
 
 import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.plus
+import de.westermann.kobserve.times
 
 data class Cash(
         private var note500: Int = 0,
@@ -34,4 +36,20 @@ data class Cash(
     val coin5Property = property(this::coin5)
     val coin2Property = property(this::coin2)
     val coin1Property = property(this::coin1)
+
+    val totalProperty = note500Property * 500.0 +
+            note200Property * 200.0 +
+            note100Property * 100.0 +
+            note50Property * 50.0 +
+            note20Property * 20.0 +
+            note10Property * 10.0 +
+            note5Property * 5.0 +
+            coin200Property * 2.0 +
+            coin100Property * 1.0 +
+            coin50Property * 0.5 +
+            coin20Property * 0.2 +
+            coin10Property * 0.1 +
+            coin5Property * 0.05 +
+            coin2Property * 0.02 +
+            coin1Property * 0.01
 }

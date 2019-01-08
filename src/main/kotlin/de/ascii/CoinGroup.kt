@@ -13,13 +13,13 @@ import de.westermann.kwebview.format
 import org.w3c.dom.events.MouseEvent
 
 class CoinGroup(
-        val name: String,
-        val stackCount: Int,
-        val value: Int,
+        name: String,
+        stackCount: Int,
+        private val value: Int,
         val property: Property<Int>
 ) : ViewCollection<View>(createHtmlView()) {
 
-    val stringProperty = property(object : FunctionAccessor<String> {
+    private val stringProperty = property(object : FunctionAccessor<String> {
         override fun set(value: String): Boolean {
             property.value = value.toIntOrNull() ?: 0
             return true
@@ -41,17 +41,19 @@ class CoinGroup(
         val type = "coin$value"
 
         property.onChange {
-            coins.values.forEach {
-                it.classList["active"] = it.dataset["position"]!!.toInt() < property.value
+            for (c in coins.values) {
+                c.classList["active"] = c.dataset["position"]!!.toInt() < property.value
             }
         }
 
-        val stack = CoinStackGroup(stackCount, type, size / 100.0)
+        val stack = CoinStackGroup(stackCount, type, value / 100.0)
         +stack
 
         for (s in stack) {
             for (c in s) {
-                coins[c.dataset["position"]!!.toInt()] = c
+                val position = c.dataset["position"]!!.toInt()
+                coins[position] = c
+                c.classList["active"] = position < property.value
             }
         }
 
