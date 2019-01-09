@@ -16,10 +16,20 @@ class CashBox(
     init {
         boxView {
             classList += "header-box"
+
+            boxView {
+                textView("Reset") {
+                    onClick {
+                        cash.shift(CashEntry(), true)
+                        cash.previousCash = CashEntry()
+                    }
+                }
+            }
+
             textView(cash.totalProperty.mapBinding { "${it.format(2)} €" })
 
-            onClick {
-                cash.shift(CashEntry(), true)
+            boxView {
+                textView("Calculate")
             }
         }
         +CoinBox(cash)

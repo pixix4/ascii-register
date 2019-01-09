@@ -1,8 +1,4 @@
 body, html {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   margin: 0;
   padding: 0;
   color: #fff;
@@ -197,6 +193,32 @@ body, html {
   background-color: #424242;
   color: #fff;
   font-size: 1.1rem;
+  clear: both;
+  padding: 0 0.5rem;
+
+  div {
+    span {
+      float: left;
+      padding: 0 1rem;
+      border-radius: 1.2rem;
+      margin: 0.7rem 0.5rem;
+      border: solid 1px rgba(255, 255, 255, 0.5);
+      line-height: 2.4rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+      font-size: 1rem;
+      &:hover {
+        background-color: #616161;
+      }
+    }
+
+    &:first-of-type {
+      float: left;
+    }
+
+    &:last-of-type {
+      float: right;
+    }
+  }
 }
 
 .cash-box {
@@ -205,10 +227,7 @@ body, html {
   width: 60rem;
   overflow: hidden;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
-
-  left: 50%;
-  margin: 1rem 1rem 1rem -30rem;
-  position: absolute;
+  margin: 1rem auto;
 }
 
 .note-box {
