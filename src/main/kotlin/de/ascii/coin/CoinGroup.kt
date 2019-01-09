@@ -117,7 +117,7 @@ class CoinGroup(
             wheelCounter += sqrt(it.deltaY.absoluteValue).roundToInt()
             val toAdd = -it.deltaY.sign.toInt() * (wheelCounter / WHEEL_THRESHOLD)
             wheelCounter %= WHEEL_THRESHOLD
-            property.value = max(0, property.value + toAdd)
+            property.value = min(max(0, property.value + toAdd), 2 * maximum)
 
             it.preventDefault()
             it.stopPropagation()
