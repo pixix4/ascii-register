@@ -5,9 +5,8 @@ body, html {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   color: #333;
-  background: #FAFAFA;
+  background: #fafafa;
   font-family: 'Montserrat', Roboto, Arial, sans-serif;
   font-weight: 600;
 }
@@ -87,17 +86,15 @@ body, html {
   -ms-user-select: none;
   user-select: none;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, .5);
-}
-
-.coin-box > div {
-  float: left;
-  height: 100%;
-  width: 8rem;
-}
-
-.coin-box > div span {
-  display: block;
-  font-weight: 800;
+  &> div {
+    float: left;
+    height: 100%;
+    width: 8rem;
+  }
+  &> div span {
+    display: block;
+    font-weight: 800;
+  }
 }
 
 .coin200 {
@@ -144,42 +141,42 @@ body, html {
   margin-top: -0.2rem;
   margin-bottom: 0.6rem;
   position: relative;
-}
 
-.coin-input input {
-  display: inline-block;
-  background-color: transparent;
-  color: #fff;
-  border: none;
-  outline: none;
-  text-align: center;
-  border-bottom: solid 0.2rem rgba(255, 255, 255, 0.2);
-  transition: border-bottom 0.2s;
-  margin: 0 0.25rem;
-  -moz-appearance: textfield;
-  appearance: textfield;
-  font-size: 1rem;
-}
+  input {
+    display: inline-block;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    outline: none;
+    text-align: center;
+    border-bottom: solid 0.2rem rgba(255, 255, 255, 0.2);
+    transition: border-bottom 0.2s;
+    margin: 0 0.25rem;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    font-size: 1rem;
 
-.coin-input input:focus {
-  border-bottom: solid 0.2rem #ffee58;
-}
+    &:focus {
+      border-bottom: solid 0.2rem #ffee58;
+    }
 
-.coin-input input:nth-child(1) {
-  width: 3rem;
-}
+    &:nth-child(1) {
+      width: 3rem;
+    }
 
-.coin-input input:nth-child(2) {
-  width: 3.2rem;
-}
+    &:nth-child(2) {
+      width: 3.2rem;
+    }
 
-.coin-input::after {
-  content: '€';
-  display: block;
-  top: 0.1rem;
-  right: 0.4rem;
-  position: absolute;
-  font-size: 0.9rem;
+    &::after {
+      content: '€';
+      display: block;
+      top: 0.1rem;
+      right: 0.4rem;
+      position: absolute;
+      font-size: 0.9rem;
+    }
+  }
 }
 
 .header-box {
@@ -187,7 +184,7 @@ body, html {
   height: 4rem;
   line-height: 4rem;
   text-align: center;
-  background-color: #eee;
+  background-color: #eeeeee;
 }
 
 .cash-box {
@@ -200,4 +197,70 @@ body, html {
   left: 50%;
   margin: 1rem 1rem 1rem -30rem;
   position: absolute;
+}
+
+.note-box {
+  width: 60rem;
+  height: 6.5rem;
+  background-color: #424242;
+  color: #FFF;
+  padding: 2rem;
+  clear: both;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  &> div {
+    float: left;
+    height: 100%;
+    width: 8rem;
+  }
+  &> div span {
+    display: block;
+    font-weight: 800;
+  }
+}
+
+.note-input {
+  margin-top: -0.2rem;
+  margin-bottom: 0.6rem;
+  position: relative;
+
+  input {
+    display: inline-block;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    outline: none;
+    text-align: center;
+    border-bottom: solid 0.2rem rgba(255, 255, 255, 0.2);
+    transition: border-bottom 0.2s;
+    margin: 0 0.25rem;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    font-size: 1rem;
+
+    &:focus {
+      border-bottom: solid 0.2rem #ffee58;
+    }
+
+    &:nth-child(1) {
+      width: 3rem;
+    }
+
+    &:nth-child(2) {
+      width: 3.2rem;
+    }
+
+    &::after {
+      content: '€';
+      display: block;
+      top: 0.1rem;
+      right: 0.4rem;
+      position: absolute;
+      font-size: 0.9rem;
+    }
+  }
 }

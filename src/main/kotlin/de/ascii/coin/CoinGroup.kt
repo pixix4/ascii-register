@@ -105,8 +105,14 @@ class CoinGroup(
         onWheel {
             if (it.deltaY > 0 && property.value > 0) {
                 property.value -= 1
+
+                it.preventDefault()
+                it.stopPropagation()
             } else if (it.deltaY < 0) {
                 property.value += 1
+
+                it.preventDefault()
+                it.stopPropagation()
             }
         }
 
