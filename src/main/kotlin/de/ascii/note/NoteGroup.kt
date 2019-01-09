@@ -6,10 +6,7 @@ import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.basic.property
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
-import de.westermann.kwebview.components.InputType
-import de.westermann.kwebview.components.boxView
-import de.westermann.kwebview.components.inputView
-import de.westermann.kwebview.components.textView
+import de.westermann.kwebview.components.*
 import de.westermann.kwebview.createHtmlView
 import de.westermann.kwebview.format
 
@@ -39,8 +36,11 @@ class NoteGroup(
                 it.stopPropagation()
             }
         }
+
+        +NoteStack(value, property)
+
         boxView {
-            classList+= "note-input"
+            classList += "note-input"
             inputView {
                 this.type = InputType.NUMBER
                 min = 0.0

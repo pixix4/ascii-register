@@ -12,12 +12,6 @@ class NoteBox(
 ) : ViewCollection<View>(createHtmlView<HTMLDivElement>()) {
     init {
         boxView {
-            +NoteGroup(500, cash.note500Property)
-        }
-        boxView {
-            +NoteGroup(200, cash.note200Property)
-        }
-        boxView {
             +NoteGroup(100, cash.note100Property)
         }
         boxView {

@@ -86,12 +86,14 @@ body, html {
   -ms-user-select: none;
   user-select: none;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, .5);
-  &> div {
+
+  & > div {
     float: left;
     height: 100%;
     width: 8rem;
   }
-  &> div span {
+
+  & > div span {
     display: block;
     font-weight: 800;
   }
@@ -167,15 +169,15 @@ body, html {
     &:nth-child(2) {
       width: 3.2rem;
     }
+  }
 
-    &::after {
-      content: '€';
-      display: block;
-      top: 0.1rem;
-      right: 0.4rem;
-      position: absolute;
-      font-size: 0.9rem;
-    }
+  &::after {
+    content: '€';
+    display: block;
+    top: 0.1rem;
+    right: 0.4rem;
+    position: absolute;
+    font-size: 0.9rem;
   }
 }
 
@@ -201,7 +203,7 @@ body, html {
 
 .note-box {
   width: 60rem;
-  height: 6.5rem;
+  height: 14rem;
   background-color: #424242;
   color: #FFF;
   padding: 2rem;
@@ -212,14 +214,17 @@ body, html {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  &> div {
+
+  & > div {
     float: left;
     height: 100%;
-    width: 8rem;
+    width: 11.2rem;
   }
-  &> div span {
+
+  & > div span {
     display: block;
     font-weight: 800;
+    padding-left: 2rem;
   }
 }
 
@@ -227,6 +232,8 @@ body, html {
   margin-top: -0.2rem;
   margin-bottom: 0.6rem;
   position: relative;
+  margin-left: 1rem;
+  width: 9rem;
 
   input {
     display: inline-block;
@@ -253,14 +260,37 @@ body, html {
     &:nth-child(2) {
       width: 3.2rem;
     }
+  }
 
-    &::after {
-      content: '€';
-      display: block;
-      top: 0.1rem;
-      right: 0.4rem;
-      position: absolute;
-      font-size: 0.9rem;
-    }
+  &::after {
+    content: '€';
+    display: block;
+    top: 0.1rem;
+    right: 0.4rem;
+    position: absolute;
+    font-size: 0.9rem;
+  }
+}
+
+.note-stack {
+  width: 100%;
+  height: 8rem;
+  position: relative;
+}
+
+.note {
+  width: 8rem;
+  height: 4rem;
+  position: absolute;
+  top: 1.7rem;
+  left: 1.1rem;
+
+  img {
+    width: 100%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+  }
+
+  &:first-child {
+    opacity: 0.2;
   }
 }

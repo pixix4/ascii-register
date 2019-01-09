@@ -8,10 +8,15 @@ import org.w3c.dom.events.EventListener
 import org.w3c.dom.events.MouseEvent
 import kotlin.browser.document
 
-inline fun <reified V : HTMLElement> createHtmlView(): V {
-    var tagName = V::class.js.name.toLowerCase().replace("html([a-z]*)element".toRegex(), "$1")
-    if (tagName.isBlank()) {
-        tagName = "div"
+inline fun <reified V : HTMLElement> createHtmlView(tag: String? = null): V {
+    var tagName: String
+    if (tag != null) {
+        tagName = tag
+    } else {
+        tagName = V::class.js.name.toLowerCase().replace("html([a-z]*)element".toRegex(), "$1")
+        if (tagName.isBlank()) {
+            tagName = "div"
+        }
     }
     return document.createElement(tagName) as V
 }
