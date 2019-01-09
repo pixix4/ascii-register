@@ -11,7 +11,7 @@ import de.westermann.kwebview.components.*
 import de.westermann.kwebview.createHtmlView
 import de.westermann.kwebview.format
 import org.w3c.dom.events.MouseEvent
-import kotlin.math.max
+import kotlin.math.*
 
 class CoinGroup(
         name: String,
@@ -19,6 +19,9 @@ class CoinGroup(
         private val value: Int,
         val property: Property<Int>
 ) : ViewCollection<View>(createHtmlView()) {
+
+    var wheelCounter: Int = 0
+    var wheelUpwards: Boolean? = null
 
     private val stringProperty = property(object : FunctionAccessor<String> {
         override fun set(value: String): Boolean {
@@ -103,17 +106,21 @@ class CoinGroup(
             Body.onMouseUp.reference(mousemove)?.let(references::add)
         }
         onWheel {
-            if (it.deltaY > 0 && property.value > 0) {
-                property.value -= 1
-
-                it.preventDefault()
-                it.stopPropagation()
-            } else if (it.deltaY < 0) {
-                property.value += 1
-
-                it.preventDefault()
-                it.stopPropagation()
+            if (it.deltaY > 0 && wheelUpwards != false) {
+                wheelUpwards = false
+                wheelCounter = 0
+            } else if (it.deltaY < 0 && wheelUpwards != true) {
+                wheelUpwards = true
+                wheelCounter = 0
             }
+
+            wheelCounter += sqrt(it.deltaY.absoluteValue).roundToInt()
+            val toAdd = -it.deltaY.sign.toInt() * (wheelCounter / WHEEL_THRESHOLD)
+            wheelCounter %= WHEEL_THRESHOLD
+            property.value = max(0, property.value + toAdd)
+
+            it.preventDefault()
+            it.stopPropagation()
         }
 
         boxView {
@@ -155,5 +162,9 @@ class CoinGroup(
                 })
             }
         }
+    }
+
+    companion object {
+        const val WHEEL_THRESHOLD: Int = 4
     }
 }
