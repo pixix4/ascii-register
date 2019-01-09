@@ -5,10 +5,17 @@ body, html {
   height: 100%;
   margin: 0;
   padding: 0;
-  color: #333;
-  background: #fafafa;
+  color: #fff;
+  background: #303030;
   font-family: 'Montserrat', Roboto, Arial, sans-serif;
   font-weight: 600;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 * {
@@ -22,11 +29,10 @@ body, html {
   width: 2.5rem;
   height: 0.3rem;
   margin-top: 1px;
-  opacity: 0.2;
 }
 
-.coin.active {
-  opacity: 1;
+.coin:not(.active) {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .coin.overflow {
@@ -73,19 +79,13 @@ body, html {
 }
 
 .coin-box {
-  background-color: #334185;
+  background-color: #003b6f;
   color: #FFF;
   padding: 2rem;
   clear: both;
   height: 33.5rem;
   width: 60rem;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, .5);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
 
   & > div {
     float: left;
@@ -186,7 +186,9 @@ body, html {
   height: 4rem;
   line-height: 4rem;
   text-align: center;
-  background-color: #eeeeee;
+  background-color: #424242;
+  color: #fff;
+  font-size: 1.1rem;
 }
 
 .cash-box {
@@ -221,7 +223,7 @@ body, html {
     width: 11.2rem;
   }
 
-  & > div span {
+  & > div > div > span {
     display: block;
     font-weight: 800;
     padding-left: 2rem;
@@ -272,6 +274,10 @@ body, html {
   }
 }
 
+.note-group {
+  position: relative;
+}
+
 .note-stack {
   width: 100%;
   height: 8rem;
@@ -292,5 +298,34 @@ body, html {
 
   &:first-child {
     opacity: 0.2;
+  }
+}
+
+.note-button {
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  span {
+    display: block;
+    text-align: center;
+    height: 3rem;
+    line-height: 3rem;
+    margin: 0 1rem;
+    background-color: transparent;
+    transition: background-color 0.2s;
+    color: #333;
+    font-size: 1.5rem;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, .5);
+    }
+  }
+
+  &:hover {
+    opacity: 1;
   }
 }

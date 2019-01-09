@@ -23,6 +23,6 @@ class Note(
     }
 
     companion object {
-        private const val MAX_ANGLE = 20
+        const val MAX_ANGLE = 20
     }
 }

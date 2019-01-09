@@ -1,5 +1,6 @@
 package de.ascii.note
 
+import de.ascii.coin.CoinGroup
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.basic.FunctionAccessor
 import de.westermann.kobserve.basic.mapBinding
@@ -9,6 +10,10 @@ import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.*
 import de.westermann.kwebview.createHtmlView
 import de.westermann.kwebview.format
+import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
+import kotlin.math.sign
+import kotlin.math.sqrt
 
 class NoteGroup(
         val value: Int,
@@ -30,6 +35,9 @@ class NoteGroup(
         }
     }, property)
 
+    private var wheelCounter: Int = 0
+    private var wheelUpwards: Boolean? = null
+
     init {
         textView("$value EURO") {
             onMouseDown {
@@ -38,6 +46,22 @@ class NoteGroup(
         }
 
         +NoteStack(value, property)
+
+        boxView {
+            classList += "note-button"
+            textView("+") {
+                onClick {
+                    property.value += 1
+                }
+            }
+            textView("-") {
+                onClick {
+                    if (property.value > 0) {
+                        property.value -= 1
+                    }
+                }
+            }
+        }
 
         boxView {
             classList += "note-input"
@@ -72,6 +96,25 @@ class NoteGroup(
                     (it * this@NoteGroup.value.toDouble()).format(2)
                 })
             }
+        }
+
+
+        onWheel {
+            if (it.deltaY > 0 && wheelUpwards != false) {
+                wheelUpwards = false
+                wheelCounter = 0
+            } else if (it.deltaY < 0 && wheelUpwards != true) {
+                wheelUpwards = true
+                wheelCounter = 0
+            }
+
+            wheelCounter += sqrt(it.deltaY.absoluteValue).roundToInt()
+            val toAdd = -it.deltaY.sign.toInt() * (wheelCounter / CoinGroup.WHEEL_THRESHOLD)
+            wheelCounter %= CoinGroup.WHEEL_THRESHOLD
+            property.value = kotlin.math.min(kotlin.math.max(0, property.value + toAdd), Note.MAX_ANGLE * 2)
+
+            it.preventDefault()
+            it.stopPropagation()
         }
     }
 }

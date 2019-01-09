@@ -20,8 +20,8 @@ class CoinGroup(
         val property: Property<Int>
 ) : ViewCollection<View>(createHtmlView()) {
 
-    var wheelCounter: Int = 0
-    var wheelUpwards: Boolean? = null
+    private var wheelCounter: Int = 0
+    private var wheelUpwards: Boolean? = null
 
     private val stringProperty = property(object : FunctionAccessor<String> {
         override fun set(value: String): Boolean {
