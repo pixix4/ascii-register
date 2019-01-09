@@ -1,4 +1,4 @@
-package de.ascii
+package de.ascii.coin
 
 import de.westermann.kobserve.ListenerReference
 import de.westermann.kobserve.Property

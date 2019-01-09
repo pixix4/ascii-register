@@ -1,5 +1,6 @@
-package de.ascii
+package de.ascii.coin
 
+import de.ascii.Cash
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.boxView

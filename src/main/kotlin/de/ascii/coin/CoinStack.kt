@@ -1,4 +1,4 @@
-package de.ascii
+package de.ascii.coin
 
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.createHtmlView
