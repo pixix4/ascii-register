@@ -86,6 +86,12 @@ class InputView(
             stepInternal = value?.toString()
         }
 
+
+    var tabindex by AttributeDelegate()
+    fun preventTabStop() {
+        tabindex = "-1"
+    }
+
     init {
         value = initValue
 
@@ -108,6 +114,7 @@ class InputView(
 
         html.addEventListener("onchange", changeListener)
         html.addEventListener("keyup", changeListener)
+        html.addEventListener("keypress", changeListener)
     }
 }
 

@@ -11,6 +11,7 @@ import de.westermann.kwebview.components.*
 import de.westermann.kwebview.createHtmlView
 import de.westermann.kwebview.format
 import org.w3c.dom.events.MouseEvent
+import kotlin.math.max
 
 class CoinGroup(
         name: String,
@@ -21,7 +22,11 @@ class CoinGroup(
 
     private val stringProperty = property(object : FunctionAccessor<String> {
         override fun set(value: String): Boolean {
-            property.value = value.toIntOrNull() ?: 0
+            val number = value.toIntOrNull() ?: 0
+            property.value = max(number, 0)
+            if (number < 0) {
+                property.onChange.emit(Unit)
+            }
             return true
         }
 
@@ -29,6 +34,14 @@ class CoinGroup(
             return property.value.toString()
         }
     }, property)
+
+    private val maximum = stackCount * 5
+
+    private fun updateCoin(coin: Coin) {
+        coin.classList["active"] = coin.position < property.value
+        coin.classList["overflow"] = coin.position + maximum < property.value
+        coin.classList["dead"] = 2 * maximum < property.value
+    }
 
     init {
         textView(name) {
@@ -42,7 +55,7 @@ class CoinGroup(
 
         property.onChange {
             for (c in coins.values) {
-                c.classList["active"] = c.dataset["position"]!!.toInt() < property.value
+                updateCoin(c)
             }
         }
 
@@ -51,9 +64,9 @@ class CoinGroup(
 
         for (s in stack) {
             for (c in s) {
-                val position = c.dataset["position"]!!.toInt()
+                val position = c.position
                 coins[position] = c
-                c.classList["active"] = position < property.value
+                updateCoin(c)
             }
         }
 
@@ -75,12 +88,12 @@ class CoinGroup(
                 val top = coin.offsetTopTotal
 
                 if (top < mouse) {
-                    property.value = coin.dataset["position"]!!.toInt() + 1
+                    property.value = coin.position + 1
                     return@lambda
                 }
             }
 
-            property.value = coins.entries.maxBy { it.key }!!.value.dataset["position"]!!.toInt() + 1
+            property.value = coins.entries.maxBy { it.key }!!.value.position + 1
         }
 
         onMouseDown {
@@ -90,7 +103,7 @@ class CoinGroup(
             Body.onMouseUp.reference(mousemove)?.let(references::add)
         }
         onWheel {
-            if (it.deltaY > 0) {
+            if (it.deltaY > 0 && property.value > 0) {
                 property.value -= 1
             } else if (it.deltaY < 0) {
                 property.value += 1
@@ -109,12 +122,27 @@ class CoinGroup(
                 min = 0.0
 
                 bind(stringProperty)
+
+                onKeyPress {
+                    when (it.keyCode) {
+                        33 -> {
+                            property.value = ((property.value / 5) + 1) * 5
+                        }
+                        34 -> {
+                            if (property.value > 0) {
+                                if (property.value % 5 == 0) {
+                                    property.value = ((property.value / 5) - 1) * 5
+                                } else {
+                                    property.value = ((property.value / 5)) * 5
+                                }
+                            }
+                        }
+                    }
+                }
             }
             inputView {
-                this.type = InputType.NUMBER
-                min = 0.0
-                step = 0.01
                 readonly = true
+                preventTabStop()
 
                 bind(property.mapBinding {
                     (it * (this@CoinGroup.value / 100.0)).format(2)

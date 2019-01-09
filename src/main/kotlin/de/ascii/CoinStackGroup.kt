@@ -35,7 +35,7 @@ class CoinStackGroup(stackCount: Int, type: String, value: Double) : ViewCollect
 
 
             for (c in stack) {
-                c.dataset["position"] = (i * 5 + c.dataset["index"]!!.toInt()).toString()
+                c.position = i * 5 + c.index
             }
 
             val money = value * (i + 1) * 5

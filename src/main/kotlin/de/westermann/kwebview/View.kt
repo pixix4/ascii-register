@@ -57,7 +57,7 @@ abstract class View(view: HTMLElement) {
     val dimension: Dimension
         get() = html.getBoundingClientRect().toDimension()
 
-    var title: String? by AttributeDelegate()
+    var title by AttributeDelegate()
 
     fun focus() {
         html.focus()

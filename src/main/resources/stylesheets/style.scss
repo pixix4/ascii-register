@@ -30,6 +30,14 @@ body, html {
   opacity: 1;
 }
 
+.coin.overflow {
+  background-color: #d32f2f !important;
+}
+
+.coin.dead {
+  background-color: black !important;
+}
+
 .coin-stack:nth-last-child(even) {
   padding-left: 0.5rem;
 }
@@ -168,9 +176,10 @@ body, html {
 .coin-input::after {
   content: '€';
   display: block;
-  top: 0;
+  top: 0.1rem;
   right: 0.4rem;
   position: absolute;
+  font-size: 0.9rem;
 }
 
 .header-box {
