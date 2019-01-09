@@ -78,7 +78,7 @@ class CoinGroup(
                 references.clear()
             }
 
-            val mouse = event.clientY
+            val mouse = event.pageY
             if (coins[0]!!.offsetTopTotal + coins[0]!!.clientHeight < mouse) {
                 property.value = 0
                 return@lambda
