@@ -17,6 +17,10 @@ class CashBox(
         boxView {
             classList += "header-box"
             textView(cash.totalProperty.mapBinding { "${it.format(2)} €" })
+
+            onClick {
+                cash.shift(CashEntry(), true)
+            }
         }
         +CoinBox(cash)
         +NoteBox(cash)

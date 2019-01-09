@@ -7,6 +7,7 @@ import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
 import org.w3c.dom.events.MouseEvent
 import kotlin.browser.document
+import kotlin.browser.window
 
 inline fun <reified V : HTMLElement> createHtmlView(tag: String? = null): V {
     var tagName: String
@@ -39,3 +40,15 @@ external fun delete(p: dynamic): Boolean = definedExternally
 fun delete(thing: dynamic, key: String) {
     delete(thing[key])
 }
+
+/**
+ * Apply current dom changes and recalculate all sizes. Executes the given block afterwards.
+ *
+ * @param timeout Optionally set a timeout for this call. Defaults to 1.
+ * @param block Callback
+ */
+fun async(timeout: Int = 1, block: () -> Unit) {
+    if (timeout < 1) throw IllegalArgumentException("Timeout must be greater than 0!")
+    window.setTimeout(block, timeout)
+}
+

@@ -31,7 +31,15 @@ body, html {
   margin-top: 1px;
 }
 
-.coin:not(.active) {
+.coin.previous {
+  opacity: 0.4;
+}
+
+.coin.active {
+  opacity: 1;
+}
+
+.coin:not(.active):not(.previous) {
   background-color: rgba(255, 255, 255, 0.1);
 }
 

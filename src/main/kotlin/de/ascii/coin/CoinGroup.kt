@@ -17,7 +17,8 @@ class CoinGroup(
         name: String,
         stackCount: Int,
         private val value: Int,
-        val property: Property<Int>
+        val property: Property<Int>,
+        val previousProperty: Property<Int>
 ) : ViewCollection<View>(createHtmlView()) {
 
     private var wheelCounter: Int = 0
@@ -44,6 +45,8 @@ class CoinGroup(
         coin.classList["active"] = coin.position < property.value
         coin.classList["overflow"] = coin.position + maximum < property.value
         coin.classList["dead"] = 2 * maximum < property.value
+
+        coin.classList["previous"] = coin.position < previousProperty.value
     }
 
     init {
@@ -57,6 +60,11 @@ class CoinGroup(
         val type = "coin$value"
 
         property.onChange {
+            for (c in coins.values) {
+                updateCoin(c)
+            }
+        }
+        previousProperty.onChange {
             for (c in coins.values) {
                 updateCoin(c)
             }
