@@ -2,6 +2,7 @@ package de.westermann.kwebview
 
 import de.westermann.kobserve.EventHandler
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.css.CSSStyleDeclaration
 import org.w3c.dom.events.*
 
 abstract class View(view: HTMLElement) {
@@ -58,6 +59,11 @@ abstract class View(view: HTMLElement) {
         get() = html.getBoundingClientRect().toDimension()
 
     var title by AttributeDelegate()
+
+    val style = view.style
+    fun style(block: CSSStyleDeclaration.() -> Unit) {
+        block(style)
+    }
 
     fun focus() {
         html.focus()

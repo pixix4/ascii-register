@@ -90,11 +90,13 @@ class CoinGroup(
             }
 
             val mouse = event.pageY
-            if (coins[0]!!.offsetTopTotal + coins[0]!!.clientHeight < mouse) {
+            val c0 = coins[0] ?: return@lambda
+            if (c0.offsetTopTotal + c0.clientHeight < mouse) {
                 property.value = 0
                 return@lambda
             }
 
+            var max = c0
             for ((_, coin) in coins.entries.sortedBy { it.key }) {
                 val top = coin.offsetTopTotal
 
@@ -102,9 +104,11 @@ class CoinGroup(
                     property.value = coin.position + 1
                     return@lambda
                 }
+
+                max = coin
             }
 
-            property.value = coins.entries.maxBy { it.key }!!.value.position + 1
+            property.value = max.position + 1
         }
 
         onMouseDown {

@@ -13,13 +13,13 @@ class Note(
         position: Int
 ) : ViewCollection<View>(createHtmlView()) {
     init {
-        val image = imageView("/public/images/note$value.jpg")
-
-
-        val angle = (2.0 * MAX_ANGLE + 1) * 1.2.pow(-position)
-
-        image.html.style.transform = "rotate(${-angle + MAX_ANGLE}deg)"
-        image.html.style.boxShadow = "0 1px 4px rgba(0, 0, 0, ${angle / (2 * MAX_ANGLE + 1)})"
+        imageView("/public/images/note$value.jpg") {
+            style {
+                val angle = (2.0 * MAX_ANGLE + 1) * 1.2.pow(-position)
+                transform = "rotate(${-angle + MAX_ANGLE}deg)"
+                boxShadow = "0 1px 4px rgba(0, 0, 0, ${angle / (2 * MAX_ANGLE + 1)})"
+            }
+        }
     }
 
     companion object {
