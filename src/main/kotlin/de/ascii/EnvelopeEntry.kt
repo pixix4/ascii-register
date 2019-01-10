@@ -26,22 +26,25 @@ class EnvelopeEntry(
     init {
         textView(label)
 
-        boxView {
-            inputView {
-                readonly = true
-                preventTabStop()
+        textView("✕")
 
-                bind(difference.mapBinding { it.toString() })
+        inputView {
+            readonly = true
+            preventTabStop()
 
-            }
-            inputView {
-                readonly = true
-                preventTabStop()
+            bind(difference.mapBinding { it.toString() })
 
-                bind(difference.mapBinding {
-                    (it * this@EnvelopeEntry.value).format(2) + " €"
-                })
-            }
         }
+
+
+        /*
+        inputView {
+            readonly = true
+            preventTabStop()
+
+            bind(difference.mapBinding {
+                (it * this@EnvelopeEntry.value).format(2) + " €"
+            })
+        }*/
     }
 }

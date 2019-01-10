@@ -6,10 +6,17 @@ import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.createHtmlView
 import org.w3c.dom.HTMLDivElement
 
-class BoxView(): ViewCollection<View>(createHtmlView<HTMLDivElement>()) {
+class BoxView() : ViewCollection<View>(createHtmlView<HTMLDivElement>()) {
     override val html = super.html as HTMLDivElement
 }
 
 @KWebViewDsl
-fun ViewCollection<in BoxView>.boxView(init: BoxView.() -> Unit = {}) =
-        BoxView().also(this::append).also(init)
+fun ViewCollection<in BoxView>.boxView(vararg classes: String, init: BoxView.() -> Unit = {}): BoxView {
+    val view = BoxView()
+    for (c in classes) {
+        view.classList += c
+    }
+    append(view)
+    init(view)
+    return view
+}

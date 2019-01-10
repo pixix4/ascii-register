@@ -23,7 +23,7 @@ body, html {
   margin: 1rem auto;
   position: relative;
   background-color: #424242;
-  transition: width 0.2s;
+  transition: width 0.4s;
 
   & > div:first-child {
     position: relative;
@@ -35,16 +35,16 @@ body, html {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: -3rem;
-    width: 11.89rem;
+    right: 0;
+    width: 13.89rem;
     border-left: solid 1px #303030;
     z-index: 0;
     opacity: 0;
-    transition: opacity 0.2s, right 0.2s;
+    transition: opacity 0.4s, right 0.4s;
   }
 
   &.calculate {
-    width: 72rem;
+    width: 74rem;
 
     & > div:last-child {
       opacity: 1;
@@ -408,12 +408,37 @@ body, html {
 }
 
 .envelope {
-  & > div:first-child {
-    height: 4rem;
-    line-height: 4rem;
+}
+
+.envelope-header {
+  height: 4rem;
+  line-height: 4rem;
+  text-align: center;
+  font-size: 1.1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.envelope-total {
+  text-align: center;
+  font-size: 1.1rem;
+  clear: both;
+
+  span {
+    float: left;
+    width: 5rem;
+    margin-left: 1.5rem;
+  }
+
+  input {
+    float: left;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    outline: none;
     text-align: center;
-    font-size: 1.1rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    margin: 0 0.25rem;
+    font-size: 1rem;
+    width: 6rem;
   }
 }
 
@@ -421,15 +446,28 @@ body, html {
   margin-bottom: 0.8rem;
   position: relative;
   margin-left: 1rem;
-  width: 9rem;
   margin-top: 0.9rem;
+  clear: both;
+  height: 1rem;
 
   span {
-    margin-left: 0.3rem;
+    float: left;
+    display: block;
+
+    &:nth-of-type(1) {
+      margin-right: 0.6rem;
+      width: 6rem;
+      text-align: right;
+    }
+
+    &:nth-of-type(2) {
+      width: 1.8rem;
+      text-align: right;
+    }
   }
 
   input {
-    display: inline-block;
+    float: left;
     background-color: transparent;
     color: #fff;
     border: none;
@@ -438,11 +476,11 @@ body, html {
     margin: 0 0.25rem;
     font-size: 1rem;
 
-    &:nth-child(1) {
+    &:nth-of-type(1) {
       width: 3rem;
     }
 
-    &:nth-child(2) {
+    &:nth-of-type(2) {
       width: 5rem;
     }
   }

@@ -4,12 +4,9 @@ import de.ascii.coin.CoinBox
 import de.ascii.note.NoteBox
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.basic.property
-import de.westermann.kwebview.View
-import de.westermann.kwebview.ViewCollection
+import de.westermann.kwebview.*
 import de.westermann.kwebview.components.boxView
 import de.westermann.kwebview.components.textView
-import de.westermann.kwebview.createHtmlView
-import de.westermann.kwebview.format
 
 class CashBox(
         private val cash: Cash
@@ -17,8 +14,6 @@ class CashBox(
 
     val calculateModeProperty = property(false)
     var calculateMode by calculateModeProperty
-
-    private var backCash = CashEntry()
 
     init {
         boxView {
@@ -29,9 +24,16 @@ class CashBox(
                     textView(calculateModeProperty.mapBinding { if (it) "Back" else "Reset" }) {
                         onClick {
                             if (calculateMode) {
-                                cash.shift(backCash, false)
-                                cash.previousCash = CashEntry()
                                 calculateMode = false
+
+                                async(300) {
+                                    val current = cash.previousCash.copy()
+                                    cash.shift(cash.previousCash, true)
+                                    cash.previousCash = current
+                                    async(Cash.ANIMATION_TIME) {
+                                        cash.previousCash = CashEntry()
+                                    }
+                                }
                             } else {
                                 cash.shift(CashEntry(), true)
                                 cash.previousCash = CashEntry()
@@ -45,7 +47,12 @@ class CashBox(
                 boxView {
                     textView("Calculate") {
                         onClick {
-                            calculateMode = true
+                            if (!calculateMode) {
+                                cash.calculate()
+                                async(Cash.ANIMATION_TIME + 200) {
+                                    calculateMode = true
+                                }
+                            }
                         }
                     }
                 }
@@ -61,5 +68,6 @@ class CashBox(
         calculateModeProperty.onChange {
             classList["calculate"] = calculateMode
         }
+        classList["calculate"] = calculateMode
     }
 }

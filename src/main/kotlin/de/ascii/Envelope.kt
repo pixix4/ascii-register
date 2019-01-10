@@ -1,19 +1,26 @@
 package de.ascii
 
+import de.westermann.kobserve.basic.mapBinding
+import de.westermann.kobserve.minus
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.boxView
+import de.westermann.kwebview.components.inputView
 import de.westermann.kwebview.components.textView
 import de.westermann.kwebview.createHtmlView
+import de.westermann.kwebview.format
 
 class Envelope(
         val cash: Cash
 ) : ViewCollection<View>(createHtmlView()) {
+
+    val sumProperty = cash.previousTotalProperty - cash.totalProperty
+
     init {
-        boxView {
+        boxView("envelope-header") {
             textView("Envelope")
         }
-        boxView {
+        boxView("envelope-body") {
             +EnvelopeEntry("100 EURO", 100.0, cash.note100Property, cash.previousNote100Property)
             +EnvelopeEntry("50 EURO", 50.0, cash.note50Property, cash.previousNote50Property)
             +EnvelopeEntry("20 EURO", 20.0, cash.note20Property, cash.previousNote20Property)
@@ -27,6 +34,13 @@ class Envelope(
             +EnvelopeEntry("5 CENT", 0.05, cash.coin5Property, cash.previousCoin5Property)
             +EnvelopeEntry("2 CENT", 0.02, cash.coin2Property, cash.previousCoin2Property)
             +EnvelopeEntry("1 CENT", 0.01, cash.coin1Property, cash.previousCoin1Property)
+        }
+        boxView("envelope-total") {
+            textView("Total:")
+            inputView(sumProperty.mapBinding { "${it.format(2)} €" }) {
+                readonly = true
+                preventTabStop()
+            }
         }
     }
 }

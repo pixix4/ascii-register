@@ -85,7 +85,7 @@ class Cash(
         property.value = from
 
         val start = Date.now()
-        val duration = 400
+        val duration = ANIMATION_TIME
         val end = start + duration
 
         val delta = to - from
@@ -134,4 +134,28 @@ class Cash(
     val previousCoin2Property = previousCashProperty.flatMapBinding(CashEntry::coin2Property)
     val previousCoin1Property = previousCashProperty.flatMapBinding(CashEntry::coin1Property)
     val previousTotalProperty = previousCashProperty.flatMapBinding(CashEntry::totalProperty)
+
+    fun calculate() {
+        val result = currentCash.copy()
+
+        result.note100Property.value /= 2
+        result.note50Property.value /= 2
+        result.note20Property.value /= 2
+        result.note10Property.value /= 2
+        result.note5Property.value /= 2
+        result.coin200Property.value /= 2
+        result.coin100Property.value /= 2
+        result.coin50Property.value /= 2
+        result.coin20Property.value /= 2
+        result.coin10Property.value /= 2
+        result.coin5Property.value /= 2
+        result.coin2Property.value /= 2
+        result.coin1Property.value /= 2
+
+        shift(result, true)
+    }
+
+    companion object {
+        const val ANIMATION_TIME = 400
+    }
 }
