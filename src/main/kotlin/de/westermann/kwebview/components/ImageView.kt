@@ -23,7 +23,6 @@ class ImageView(
         sourceProperty.unbind()
     }
 
-
     var source: String
         get() = html.src
         set(value) {

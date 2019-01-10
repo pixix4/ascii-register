@@ -133,7 +133,8 @@ body, html {
   & > div {
     float: left;
     height: 100%;
-    width: 8rem;
+    width: 6rem;
+    margin-right: 2rem;
   }
 
   & > div span {
@@ -186,6 +187,7 @@ body, html {
   margin-top: -0.2rem;
   margin-bottom: 0.6rem;
   position: relative;
+  width: 8rem;
 
   input {
     display: inline-block;
@@ -197,6 +199,7 @@ body, html {
     border-bottom: solid 0.2rem rgba(255, 255, 255, 0.2);
     transition: border-bottom 0.2s;
     margin: 0 0.25rem;
+    -webkit-appearance: textfield;
     -moz-appearance: textfield;
     appearance: textfield;
     font-size: 1rem;
@@ -317,6 +320,7 @@ body, html {
     border-bottom: solid 0.2rem rgba(255, 255, 255, 0.2);
     transition: border-bottom 0.2s;
     margin: 0 0.25rem;
+    -webkit-appearance: textarea;;
     -moz-appearance: textfield;
     appearance: textfield;
     font-size: 1rem;

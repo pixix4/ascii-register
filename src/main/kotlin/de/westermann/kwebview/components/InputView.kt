@@ -86,7 +86,6 @@ class InputView(
             stepInternal = value?.toString()
         }
 
-
     var tabindex by AttributeDelegate()
     fun preventTabStop() {
         tabindex = "-1"
