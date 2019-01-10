@@ -1,7 +1,5 @@
 package de.westermann.kwebview
 
-import org.w3c.dom.Element
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 /**

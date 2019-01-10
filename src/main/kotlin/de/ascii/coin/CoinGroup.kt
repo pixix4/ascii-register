@@ -2,6 +2,7 @@ package de.ascii.coin
 
 import de.westermann.kobserve.ListenerReference
 import de.westermann.kobserve.Property
+import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kobserve.basic.FunctionAccessor
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.basic.property
@@ -18,7 +19,8 @@ class CoinGroup(
         stackCount: Int,
         private val value: Int,
         val property: Property<Int>,
-        val previousProperty: Property<Int>
+        val previousProperty: Property<Int>,
+        editable: ReadOnlyProperty<Boolean>
 ) : ViewCollection<View>(createHtmlView()) {
 
     private var wheelCounter: Int = 0
@@ -26,10 +28,12 @@ class CoinGroup(
 
     private val stringProperty = property(object : FunctionAccessor<String> {
         override fun set(value: String): Boolean {
-            val number = value.toIntOrNull() ?: 0
-            property.value = max(number, 0)
-            if (number < 0) {
-                property.onChange.emit(Unit)
+            if (editable.value) {
+                val number = value.toIntOrNull() ?: 0
+                property.value = max(number, 0)
+                if (number < 0) {
+                    property.onChange.emit(Unit)
+                }
             }
             return true
         }
@@ -112,24 +116,28 @@ class CoinGroup(
         }
 
         onMouseDown {
-            mousemove(it)
+            if (editable.value) {
+                mousemove(it)
 
-            Body.onMouseMove.reference(mousemove)?.let(references::add)
-            Body.onMouseUp.reference(mousemove)?.let(references::add)
+                Body.onMouseMove.reference(mousemove)?.let(references::add)
+                Body.onMouseUp.reference(mousemove)?.let(references::add)
+            }
         }
         onWheel {
-            if (it.deltaY > 0 && wheelUpwards != false) {
-                wheelUpwards = false
-                wheelCounter = 0
-            } else if (it.deltaY < 0 && wheelUpwards != true) {
-                wheelUpwards = true
-                wheelCounter = 0
-            }
+            if (editable.value) {
+                if (it.deltaY > 0 && wheelUpwards != false) {
+                    wheelUpwards = false
+                    wheelCounter = 0
+                } else if (it.deltaY < 0 && wheelUpwards != true) {
+                    wheelUpwards = true
+                    wheelCounter = 0
+                }
 
-            wheelCounter += sqrt(it.deltaY.absoluteValue).roundToInt()
-            val toAdd = -it.deltaY.sign.toInt() * (wheelCounter / WHEEL_THRESHOLD)
-            wheelCounter %= WHEEL_THRESHOLD
-            property.value = min(max(0, property.value + toAdd), 2 * maximum)
+                wheelCounter += sqrt(it.deltaY.absoluteValue).roundToInt()
+                val toAdd = -it.deltaY.sign.toInt() * (wheelCounter / WHEEL_THRESHOLD)
+                wheelCounter %= WHEEL_THRESHOLD
+                property.value = min(max(0, property.value + toAdd), 2 * maximum)
+            }
 
             it.preventDefault()
             it.stopPropagation()
@@ -148,17 +156,24 @@ class CoinGroup(
 
                 bind(stringProperty)
 
+                editable.onChange {
+                    readonly = !editable.value
+                }
+                readonly = !editable.value
+
                 onKeyPress {
-                    when (it.keyCode) {
-                        33 -> {
-                            property.value = ((property.value / 5) + 1) * 5
-                        }
-                        34 -> {
-                            if (property.value > 0) {
-                                if (property.value % 5 == 0) {
-                                    property.value = ((property.value / 5) - 1) * 5
-                                } else {
-                                    property.value = ((property.value / 5)) * 5
+                    if (editable.value) {
+                        when (it.keyCode) {
+                            33 -> {
+                                property.value = ((property.value / 5) + 1) * 5
+                            }
+                            34 -> {
+                                if (property.value > 0) {
+                                    if (property.value % 5 == 0) {
+                                        property.value = ((property.value / 5) - 1) * 5
+                                    } else {
+                                        property.value = ((property.value / 5)) * 5
+                                    }
                                 }
                             }
                         }

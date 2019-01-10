@@ -4,6 +4,7 @@ import de.ascii.coin.CoinBox
 import de.ascii.note.NoteBox
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.not
 import de.westermann.kwebview.*
 import de.westermann.kwebview.components.boxView
 import de.westermann.kwebview.components.textView
@@ -14,6 +15,8 @@ class CashBox(
 
     val calculateModeProperty = property(false)
     var calculateMode by calculateModeProperty
+
+    val editable = !calculateModeProperty
 
     init {
         boxView {
@@ -58,8 +61,8 @@ class CashBox(
                 }
             }
 
-            +CoinBox(cash)
-            +NoteBox(cash)
+            +CoinBox(cash, editable)
+            +NoteBox(cash, editable)
         }
         boxView {
             +Envelope(cash)

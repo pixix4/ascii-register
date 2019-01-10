@@ -1,6 +1,5 @@
 package de.westermann.kwebview
 
-import org.w3c.dom.events.MouseEvent
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
