@@ -93,7 +93,7 @@ class NoteGroup(
                 preventTabStop()
 
                 bind(property.mapBinding {
-                    (it * this@NoteGroup.value.toDouble()).format(2)
+                    (it * this@NoteGroup.value.toDouble()).format(2) + " €"
                 })
             }
         }

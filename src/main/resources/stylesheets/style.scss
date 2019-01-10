@@ -45,6 +45,7 @@ body, html {
 
   &.calculate {
     width: 72rem;
+
     & > div:last-child {
       opacity: 1;
       right: 0;
@@ -209,18 +210,21 @@ body, html {
     }
 
     &:nth-child(2) {
-      width: 3.2rem;
+      width: 4.5rem;
+      border: none;
+      margin: 0;
     }
   }
 
-  &::after {
-    content: '€';
-    display: block;
-    top: 0.1rem;
-    right: 0.4rem;
-    position: absolute;
-    font-size: 0.9rem;
-  }
+  /*
+    &::after {
+      content: '€';
+      display: block;
+      top: 0.1rem;
+      right: 0.4rem;
+      position: absolute;
+      font-size: 0.9rem;
+    }*/
 }
 
 .header-box {
@@ -326,18 +330,21 @@ body, html {
     }
 
     &:nth-child(2) {
-      width: 3.2rem;
+      width: 5rem;
+      border: none;
     }
   }
 
-  &::after {
-    content: '€';
-    display: block;
-    top: 0.1rem;
-    right: 0.6rem;
-    position: absolute;
-    font-size: 0.9rem;
-  }
+  /*
+    &::after {
+      content: '€';
+      display: block;
+      top: 0.1rem;
+      right: 0.6rem;
+      position: absolute;
+      font-size: 0.9rem;
+    }
+    */
 }
 
 .note-group {
@@ -411,11 +418,11 @@ body, html {
 }
 
 .envelope-entry {
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.8rem;
   position: relative;
   margin-left: 1rem;
   width: 9rem;
-  margin-top: 0.8rem;
+  margin-top: 0.9rem;
 
   span {
     margin-left: 0.3rem;
@@ -428,16 +435,8 @@ body, html {
     border: none;
     outline: none;
     text-align: center;
-    border-bottom: solid 0.2rem rgba(255, 255, 255, 0.2);
-    transition: border-bottom 0.2s;
     margin: 0 0.25rem;
-    -moz-appearance: textfield;
-    appearance: textfield;
     font-size: 1rem;
-
-    &:focus {
-      border-bottom: solid 0.2rem #ffee58;
-    }
 
     &:nth-child(1) {
       width: 3rem;

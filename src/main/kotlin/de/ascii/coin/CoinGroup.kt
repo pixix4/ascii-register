@@ -170,7 +170,7 @@ class CoinGroup(
                 preventTabStop()
 
                 bind(property.mapBinding {
-                    (it * (this@CoinGroup.value / 100.0)).format(2)
+                    (it * (this@CoinGroup.value / 100.0)).format(2) + " €"
                 })
             }
         }
