@@ -138,19 +138,12 @@ class Cash(
     fun calculate() {
         val result = currentCash.copy()
 
-        result.note100Property.value /= 2
-        result.note50Property.value /= 2
-        result.note20Property.value /= 2
-        result.note10Property.value /= 2
-        result.note5Property.value /= 2
-        result.coin200Property.value /= 2
-        result.coin100Property.value /= 2
-        result.coin50Property.value /= 2
-        result.coin20Property.value /= 2
-        result.coin10Property.value /= 2
-        result.coin5Property.value /= 2
-        result.coin2Property.value /= 2
-        result.coin1Property.value /= 2
+        // Remove 1,2 and 5 cent
+        result.coin5Property.value = 0
+        result.coin2Property.value = 0
+        result.coin1Property.value = 0
+
+        CashProblem.solve(result)
 
         shift(result, true)
     }

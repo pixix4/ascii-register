@@ -46,4 +46,23 @@ data class CashEntry(
             coin5Property * 0.05 +
             coin2Property * 0.02 +
             coin1Property * 0.01
+
+    companion object {
+        val default: CashEntry
+            get() = CashEntry(
+                    0,
+                    0,
+                    0,
+                    2,
+                    2,
+                    20,
+                    15,
+                    18,
+                    20,
+                    20,
+                    0,
+                    0,
+                    0
+            )
+    }
 }

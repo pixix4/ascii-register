@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
 }
 
 fun init() {
-    val cash = Cash()
+    val cash = Cash(CashEntry.default)
 
     Body += CashBox(cash)
 }
