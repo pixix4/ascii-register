@@ -26,7 +26,7 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    implementation "de.westermann:KObserve-js:0.6.3"
+    implementation "de.westermann:KObserve-js:0.7.0"
 }
 
 clean.doFirst() {

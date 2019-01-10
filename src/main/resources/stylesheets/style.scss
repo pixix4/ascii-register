@@ -14,6 +14,44 @@ body, html {
   user-select: none;
 }
 
+.cash-box {
+  border: solid 1px rgba(0, 0, 0, .25);
+  border-radius: 0.4rem;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+  width: 60rem;
+  margin: 1rem auto;
+  position: relative;
+  background-color: #424242;
+  transition: width 0.2s;
+
+  & > div:first-child {
+    position: relative;
+    width: 60rem;
+    z-index: 1;
+  }
+
+  & > div:last-child {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -3rem;
+    width: 11.89rem;
+    border-left: solid 1px #303030;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.2s, right 0.2s;
+  }
+
+  &.calculate {
+    width: 72rem;
+    & > div:last-child {
+      opacity: 1;
+      right: 0;
+    }
+  }
+}
+
 * {
   box-sizing: border-box;
   font-family: 'Montserrat';
@@ -190,8 +228,8 @@ body, html {
   height: 4rem;
   line-height: 4rem;
   text-align: center;
-  background-color: #424242;
   color: #fff;
+  background-color: #424242;
   font-size: 1.1rem;
   clear: both;
   padding: 0 0.5rem;
@@ -206,6 +244,7 @@ body, html {
   div {
     z-index: 1;
     position: relative;
+
     span {
       float: left;
       padding: 0 1rem;
@@ -214,6 +253,7 @@ body, html {
       line-height: 2.4rem;
       font-size: 1rem;
       color: #83c5ff;
+
       &:hover {
         background-color: #616161;
       }
@@ -229,20 +269,11 @@ body, html {
   }
 }
 
-.cash-box {
-  border: solid 1px rgba(0, 0, 0, .25);
-  border-radius: 0.4rem;
-  width: 60rem;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
-  margin: 1rem auto;
-}
-
 .note-box {
   width: 60rem;
   height: 14rem;
-  background-color: #424242;
   color: #FFF;
+  background-color: #424242;
   padding: 2rem;
   clear: both;
   -webkit-touch-callout: none;
@@ -303,7 +334,7 @@ body, html {
     content: '€';
     display: block;
     top: 0.1rem;
-    right: 0.4rem;
+    right: 0.6rem;
     position: absolute;
     font-size: 0.9rem;
   }
@@ -366,5 +397,54 @@ body, html {
 
   &:hover {
     opacity: 1;
+  }
+}
+
+.envelope {
+  & > div:first-child {
+    height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+    font-size: 1.1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.envelope-entry {
+  margin-bottom: 0.6rem;
+  position: relative;
+  margin-left: 1rem;
+  width: 9rem;
+  margin-top: 0.8rem;
+
+  span {
+    margin-left: 0.3rem;
+  }
+
+  input {
+    display: inline-block;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    outline: none;
+    text-align: center;
+    border-bottom: solid 0.2rem rgba(255, 255, 255, 0.2);
+    transition: border-bottom 0.2s;
+    margin: 0 0.25rem;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    font-size: 1rem;
+
+    &:focus {
+      border-bottom: solid 0.2rem #ffee58;
+    }
+
+    &:nth-child(1) {
+      width: 3rem;
+    }
+
+    &:nth-child(2) {
+      width: 5rem;
+    }
   }
 }

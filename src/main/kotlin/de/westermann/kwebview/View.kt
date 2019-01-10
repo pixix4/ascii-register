@@ -91,23 +91,23 @@ abstract class View(view: HTMLElement) {
     val onBlur = EventHandler<FocusEvent>()
 
     init {
-        view.addEventListener("click", onClick.eventListener())
-        view.addEventListener("dblclick", onDblClick.eventListener())
-        view.addEventListener("contextmenu", onContext.eventListener())
+        onClick.bind(view, "click")
+        onDblClick.bind(view, "dblclick")
+        onContext.bind(view, "contextmenu")
 
-        view.addEventListener("mousedown", onMouseDown.eventListener())
-        view.addEventListener("mousemove", onMouseMove.eventListener())
-        view.addEventListener("mouseup", onMouseUp.eventListener())
-        view.addEventListener("mouseenter", onMouseEnter.eventListener())
-        view.addEventListener("mouseleave", onMouseLeave.eventListener())
+        onMouseDown.bind(view, "mousedown")
+        onMouseMove.bind(view, "mousemove")
+        onMouseUp.bind(view, "mouseup")
+        onMouseEnter.bind(view, "mouseenter")
+        onMouseLeave.bind(view, "mouseleave")
 
-        view.addEventListener("wheel", onWheel.eventListener())
+        onWheel.bind(view, "wheel")
 
-        view.addEventListener("keydown", onKeyDown.eventListener())
-        view.addEventListener("keypress", onKeyPress.eventListener())
-        view.addEventListener("keyup", onKeyUp.eventListener())
+        onKeyDown.bind(view, "keydown")
+        onKeyPress.bind(view, "keypress")
+        onKeyUp.bind(view, "keyup")
 
-        view.addEventListener("focus", onFocus.eventListener())
-        view.addEventListener("blur", onBlur.eventListener())
+        onFocus.bind(view, "focus")
+        onBlur.bind(view, "blur")
     }
 }

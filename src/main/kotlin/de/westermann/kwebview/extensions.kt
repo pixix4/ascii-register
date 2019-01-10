@@ -24,10 +24,27 @@ inline fun <reified V : HTMLElement> createHtmlView(tag: String? = null): V {
 
 fun String.toDashCase() = replace("([a-z])([A-Z])".toRegex(), "$1-$2").toLowerCase()
 
-inline fun <reified T> EventHandler<T>.eventListener() = object : EventListener {
-    override fun handleEvent(event: Event) {
-        this@eventListener.emit(event as T)
+inline fun <reified T> EventHandler<T>.bind(element: HTMLElement, event: String) {
+    val listener = object : EventListener {
+        override fun handleEvent(event: Event) {
+            this@bind.emit(event as T)
+        }
     }
+    var isAttached = false
+
+    val updateState = {
+        if (isEmpty() && isAttached) {
+            element.removeEventListener(event, listener)
+            isAttached = false
+        } else if (!isEmpty() && !isAttached) {
+            element.addEventListener(event, listener)
+            isAttached = true
+        }
+    }
+
+    onAttach = updateState
+    onDetach = updateState
+    updateState()
 }
 
 fun MouseEvent.toPoint(): Point = Point(clientX, clientY)

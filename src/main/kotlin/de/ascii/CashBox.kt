@@ -22,34 +22,44 @@ class CashBox(
 
     init {
         boxView {
-            classList += "header-box"
-
             boxView {
-                textView(calculateModeProperty.mapBinding { if (it) "Back" else "Reset" }) {
-                    onClick {
-                        if (calculateMode) {
-                            cash.shift(backCash, false)
-                            cash.previousCash = CashEntry()
-                            calculateMode = false
-                        } else {
-                            cash.shift(CashEntry(), true)
-                            cash.previousCash = CashEntry()
+                classList += "header-box"
+
+                boxView {
+                    textView(calculateModeProperty.mapBinding { if (it) "Back" else "Reset" }) {
+                        onClick {
+                            if (calculateMode) {
+                                cash.shift(backCash, false)
+                                cash.previousCash = CashEntry()
+                                calculateMode = false
+                            } else {
+                                cash.shift(CashEntry(), true)
+                                cash.previousCash = CashEntry()
+                            }
+                        }
+                    }
+                }
+
+                textView(cash.totalProperty.mapBinding { "${it.format(2)} €" })
+
+                boxView {
+                    textView("Calculate") {
+                        onClick {
+                            calculateMode = true
                         }
                     }
                 }
             }
 
-            textView(cash.totalProperty.mapBinding { "${it.format(2)} €" })
-
-            boxView {
-                textView("Calculate") {
-                    onClick {
-                        calculateMode = true
-                    }
-                }
-            }
+            +CoinBox(cash)
+            +NoteBox(cash)
         }
-        +CoinBox(cash)
-        +NoteBox(cash)
+        boxView {
+            +Envelope(cash)
+        }
+
+        calculateModeProperty.onChange {
+            classList["calculate"] = calculateMode
+        }
     }
 }
