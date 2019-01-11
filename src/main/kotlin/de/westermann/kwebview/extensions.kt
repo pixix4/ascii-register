@@ -69,3 +69,11 @@ fun async(timeout: Int = 1, block: () -> Unit) {
     window.setTimeout(block, timeout)
 }
 
+fun interval(timeout: Int, block: () -> Unit): Int {
+    if (timeout < 1) throw IllegalArgumentException("Timeout must be greater than 0!")
+    return window.setInterval(block, timeout)
+}
+
+fun clearInterval(id: Int) {
+    window.clearInterval(id)
+}

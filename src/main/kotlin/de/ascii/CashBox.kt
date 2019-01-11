@@ -6,17 +6,15 @@ import de.westermann.kobserve.ListenerReference
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.basic.property
 import de.westermann.kobserve.not
-import de.westermann.kwebview.View
-import de.westermann.kwebview.ViewCollection
-import de.westermann.kwebview.async
+import de.westermann.kwebview.*
 import de.westermann.kwebview.components.Body
 import de.westermann.kwebview.components.TextView
 import de.westermann.kwebview.components.boxView
 import de.westermann.kwebview.components.textView
-import de.westermann.kwebview.format
 import org.w3c.dom.get
 import org.w3c.dom.set
 import kotlin.browser.window
+import kotlin.js.Date
 
 class CashBox : ViewCollection<View>() {
 
@@ -29,85 +27,134 @@ class CashBox : ViewCollection<View>() {
 
     private val editable = !calculateModeProperty
 
-    private lateinit var extraView: TextView
+    private lateinit var targetView: TextView
+
+    private val snapshotTimeProperty = property(window.localStorage["snapshot"]?.toLongOrNull() ?: 0)
+    private var snapshotTime by snapshotTimeProperty
+
+    private val snapshotStringProperty = snapshotTimeProperty.mapBinding {
+        val now = Date.now().toLong()
+        var diff = (now - it) / 1000
+        if (it == 0L || diff < 300) {
+            return@mapBinding ""
+        } else {
+            if (diff < 60) {
+                return@mapBinding "$diff sec"
+            }
+            diff /= 60
+            if (diff < 60) {
+                return@mapBinding "$diff min"
+            }
+            diff /= 60
+            if (diff < 24) {
+                return@mapBinding "$diff hrs"
+            }
+            diff /= 24
+            if (diff < 30) {
+                return@mapBinding "$diff days"
+            }
+            diff /= 30
+            if (diff < 12) {
+                return@mapBinding "$diff month"
+            }
+            diff /= 12
+            return@mapBinding "$diff years"
+        }
+    }
 
     init {
+        snapshotTimeProperty.onChange {
+            window.localStorage["snapshot"] = snapshotTime.toString()
+        }
         cash.note100Property.value = window.localStorage["note100"]?.toIntOrNull() ?: 0
         cash.note100Property.onChange {
             if (saveCash) {
                 window.localStorage["note100"] = cash.note100Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.note50Property.value = window.localStorage["note50"]?.toIntOrNull() ?: 0
         cash.note50Property.onChange {
             if (saveCash) {
                 window.localStorage["note50"] = cash.note50Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.note20Property.value = window.localStorage["note20"]?.toIntOrNull() ?: 0
         cash.note20Property.onChange {
             if (saveCash) {
                 window.localStorage["note20"] = cash.note20Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.note10Property.value = window.localStorage["note10"]?.toIntOrNull() ?: 0
         cash.note10Property.onChange {
             if (saveCash) {
                 window.localStorage["note10"] = cash.note10Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.note5Property.value = window.localStorage["note5"]?.toIntOrNull() ?: 0
         cash.note5Property.onChange {
             if (saveCash) {
                 window.localStorage["note5"] = cash.note5Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.coin200Property.value = window.localStorage["coin200"]?.toIntOrNull() ?: 0
         cash.coin200Property.onChange {
             if (saveCash) {
                 window.localStorage["coin200"] = cash.coin200Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.coin100Property.value = window.localStorage["coin100"]?.toIntOrNull() ?: 0
         cash.coin100Property.onChange {
             if (saveCash) {
                 window.localStorage["coin100"] = cash.coin100Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.coin50Property.value = window.localStorage["coin50"]?.toIntOrNull() ?: 0
         cash.coin50Property.onChange {
             if (saveCash) {
                 window.localStorage["coin50"] = cash.coin50Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.coin20Property.value = window.localStorage["coin20"]?.toIntOrNull() ?: 0
         cash.coin20Property.onChange {
             if (saveCash) {
                 window.localStorage["coin20"] = cash.coin20Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.coin10Property.value = window.localStorage["coin10"]?.toIntOrNull() ?: 0
         cash.coin10Property.onChange {
             if (saveCash) {
                 window.localStorage["coin10"] = cash.coin10Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.coin5Property.value = window.localStorage["coin5"]?.toIntOrNull() ?: 0
         cash.coin5Property.onChange {
             if (saveCash) {
                 window.localStorage["coin5"] = cash.coin5Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.coin2Property.value = window.localStorage["coin2"]?.toIntOrNull() ?: 0
         cash.coin2Property.onChange {
             if (saveCash) {
                 window.localStorage["coin2"] = cash.coin2Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
         cash.coin1Property.value = window.localStorage["coin1"]?.toIntOrNull() ?: 0
         cash.coin1Property.onChange {
             if (saveCash) {
                 window.localStorage["coin1"] = cash.coin1Property.value.toString()
+                snapshotTime = Date.now().toLong()
             }
         }
 
@@ -148,7 +195,7 @@ class CashBox : ViewCollection<View>() {
 
                                     shouldShow = false
                                     async(400) {
-                                        extraView.text = ""
+                                        targetView.text = ""
                                     }
 
                                     cash.shift(CashEntry(), true)
@@ -161,7 +208,7 @@ class CashBox : ViewCollection<View>() {
 
                                     shouldShow = false
                                     async(400) {
-                                        extraView.text = ""
+                                        targetView.text = ""
                                         saveCash = true
                                     }
 
@@ -172,7 +219,7 @@ class CashBox : ViewCollection<View>() {
                                 async(500) {
                                     if (shouldShow) {
                                         saveCash = false
-                                        extraView.text = "Target cash"
+                                        targetView.text = "Target cash"
                                         Cash.animate(cash.note100Property, 0, target.note100Property.value)
                                         Cash.animate(cash.note50Property, 0, target.note50Property.value)
                                         Cash.animate(cash.note20Property, 0, target.note20Property.value)
@@ -194,8 +241,11 @@ class CashBox : ViewCollection<View>() {
                 }
 
                 textView(cash.totalProperty.mapBinding { "${it.format(2)} €" })
-                extraView = textView {
-                    classList += "extra"
+                targetView = textView {
+                    classList += "target"
+                }
+                textView(snapshotStringProperty) {
+                    classList += "snapshot"
                 }
 
                 boxView {
@@ -224,5 +274,9 @@ class CashBox : ViewCollection<View>() {
             classList["calculate"] = calculateMode
         }
         classList["calculate"] = calculateMode
+
+        interval(1000) {
+            snapshotStringProperty.invalidate()
+        }
     }
 }

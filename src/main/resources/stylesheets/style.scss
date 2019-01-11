@@ -218,16 +218,6 @@ body, html {
       margin: 0;
     }
   }
-
-  /*
-    &::after {
-      content: '€';
-      display: block;
-      top: 0.1rem;
-      right: 0.4rem;
-      position: absolute;
-      font-size: 0.9rem;
-    }*/
 }
 
 .header-box {
@@ -248,8 +238,18 @@ body, html {
     left: 0;
     transition: opacity 0.2s;
 
-    &.extra {
+    &.target {
       width : 55%;
+      opacity: 0.6;
+
+      &:empty {
+        opacity: 0;
+      }
+    }
+    &.snapshot {
+      width : 58%;
+      left: auto;
+      right: 0;
       opacity: 0.6;
 
       &:empty {
@@ -348,17 +348,6 @@ body, html {
       border: none;
     }
   }
-
-  /*
-    &::after {
-      content: '€';
-      display: block;
-      top: 0.1rem;
-      right: 0.6rem;
-      position: absolute;
-      font-size: 0.9rem;
-    }
-    */
 }
 
 .note-group {
