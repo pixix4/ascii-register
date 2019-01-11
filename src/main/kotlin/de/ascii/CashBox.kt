@@ -24,6 +24,7 @@ class CashBox : ViewCollection<View>() {
     private var calculateMode by calculateModeProperty
 
     private var saveCash = true
+    private var hideSnapshot = false
 
     private val editable = !calculateModeProperty
 
@@ -35,7 +36,7 @@ class CashBox : ViewCollection<View>() {
     private val snapshotStringProperty = snapshotTimeProperty.mapBinding {
         val now = Date.now().toLong()
         var diff = (now - it) / 1000
-        if (it == 0L || diff < 300) {
+        if (it == 0L || diff < 300 || cash.totalProperty.value == 0.0 || hideSnapshot) {
             return@mapBinding ""
         } else {
             if (diff < 60) {
@@ -187,15 +188,16 @@ class CashBox : ViewCollection<View>() {
                             if (!calculateMode && cash.totalProperty.value == 0.0) {
                                 val target = CashEntry.default
                                 val references = mutableListOf<ListenerReference<*>>()
-                                var shouldShow = true
+                                hideSnapshot = true
                                 Body.onMouseUp.reference {
                                     for (r in references) {
                                         r.remove()
                                     }
 
-                                    shouldShow = false
+                                    hideSnapshot = false
                                     async(400) {
                                         targetView.text = ""
+                                        saveCash = true
                                     }
 
                                     cash.shift(CashEntry(), true)
@@ -206,7 +208,7 @@ class CashBox : ViewCollection<View>() {
                                         r.remove()
                                     }
 
-                                    shouldShow = false
+                                    hideSnapshot = false
                                     async(400) {
                                         targetView.text = ""
                                         saveCash = true
@@ -217,7 +219,7 @@ class CashBox : ViewCollection<View>() {
                                 }?.let(references::add)
 
                                 async(500) {
-                                    if (shouldShow) {
+                                    if (hideSnapshot) {
                                         saveCash = false
                                         targetView.text = "Target cash"
                                         Cash.animate(cash.note100Property, 0, target.note100Property.value)
