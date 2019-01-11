@@ -4,9 +4,7 @@ import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.minus
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
-import de.westermann.kwebview.components.boxView
-import de.westermann.kwebview.components.inputView
-import de.westermann.kwebview.components.textView
+import de.westermann.kwebview.components.*
 import de.westermann.kwebview.format
 import org.w3c.dom.get
 import org.w3c.dom.set
@@ -59,8 +57,24 @@ class Envelope(
                     window.localStorage["username"] = value
                 }
             }
-            textView("Date: $dateString")
-            textView(sumProperty.mapBinding { "Money: ${it.format(2)} €" })
+            table {
+                row {
+                    cell {
+                        textView("Date: ")
+                    }
+                    cell {
+                        textView(dateString)
+                    }
+                }
+                row {
+                    cell {
+                        textView("Money: ")
+                    }
+                    cell {
+                        textView(sumProperty.mapBinding { "${it.format(2)} €" })
+                    }
+                }
+            }
         }
     }
 }

@@ -87,11 +87,11 @@ body, html {
 }
 
 .coin-stack:nth-last-child(even) {
-  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .coin-stack:nth-last-child(odd) {
-  padding-right: 0.5rem;
+  padding-left: 0.5rem;
 }
 
 .coin-stack {
@@ -518,5 +518,9 @@ body, html {
     margin: 0;
     padding: 0;
     width: 100%;
+  }
+
+  span {
+    padding-right: 0.5rem
   }
 }
