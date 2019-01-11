@@ -3,13 +3,12 @@ package de.ascii.note
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.imageView
-import de.westermann.kwebview.createHtmlView
 import kotlin.math.pow
 
 class Note(
         val value: Int,
         position: Int
-) : ViewCollection<View>(createHtmlView()) {
+) : ViewCollection<View>() {
     init {
         imageView("/public/images/note$value.jpg") {
             style {

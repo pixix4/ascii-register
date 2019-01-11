@@ -7,14 +7,13 @@ import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.inputView
 import de.westermann.kwebview.components.textView
-import de.westermann.kwebview.createHtmlView
 
 class EnvelopeEntry(
         label: String,
         val value: Double,
         val property: Property<Int>,
         previousProperty: Property<Int>
-) : ViewCollection<View>(createHtmlView()) {
+) : ViewCollection<View>() {
 
     private val difference = previousProperty - property
 

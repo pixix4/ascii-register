@@ -2,12 +2,11 @@ package de.ascii.note
 
 import de.westermann.kobserve.Property
 import de.westermann.kwebview.ViewCollection
-import de.westermann.kwebview.createHtmlView
 
 class NoteStack(
         val value: Int,
         val property: Property<Int>
-) : ViewCollection<Note>(createHtmlView()) {
+) : ViewCollection<Note>() {
 
     private fun update() {
         val count = property.value

@@ -1,13 +1,12 @@
 package de.ascii.coin
 
 import de.westermann.kwebview.ViewCollection
-import de.westermann.kwebview.createHtmlView
 import de.westermann.kwebview.format
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.round
 
-class CoinStackGroup(stackCount: Int, type: String, value: Double) : ViewCollection<CoinStack>(createHtmlView()) {
+class CoinStackGroup(stackCount: Int, type: String, value: Double) : ViewCollection<CoinStack>() {
 
     private val superMap = mapOf(
             '0' to '⁰',

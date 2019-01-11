@@ -3,10 +3,7 @@ package de.westermann.kwebview.components
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kobserve.basic.property
-import de.westermann.kwebview.KWebViewDsl
-import de.westermann.kwebview.View
-import de.westermann.kwebview.ViewCollection
-import de.westermann.kwebview.createHtmlView
+import de.westermann.kwebview.*
 import org.w3c.dom.HTMLImageElement
 
 class ImageView(
@@ -31,6 +28,9 @@ class ImageView(
         }
 
     val sourceProperty: Property<String> = property(this::source)
+
+
+    var alt by AttributeDelegate("alt")
 
     init {
         source = src

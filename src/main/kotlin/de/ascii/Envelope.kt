@@ -7,12 +7,15 @@ import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.boxView
 import de.westermann.kwebview.components.inputView
 import de.westermann.kwebview.components.textView
-import de.westermann.kwebview.createHtmlView
 import de.westermann.kwebview.format
+import org.w3c.dom.get
+import org.w3c.dom.set
+import kotlin.browser.window
+import kotlin.js.Date
 
 class Envelope(
         val cash: Cash
-) : ViewCollection<View>(createHtmlView()) {
+) : ViewCollection<View>() {
 
     val sumProperty = cash.previousTotalProperty - cash.totalProperty
 
@@ -41,6 +44,23 @@ class Envelope(
                 readonly = true
                 preventTabStop()
             }
+        }
+
+        val date = Date()
+        val dateString = "${date.getDate().let {
+            if (it < 10) "0$it" else it
+        }}.${(date.getMonth() + 1).let {
+            if (it < 10) "0$it" else it
+        }}.${date.getFullYear()}"
+
+        boxView("envelope-cover") {
+            inputView(window.localStorage["username"] ?: "<< your name >>") {
+                valueProperty.onChange {
+                    window.localStorage["username"] = value
+                }
+            }
+            textView("Date: $dateString")
+            textView(sumProperty.mapBinding { "Money: ${it.format(2)} €" })
         }
     }
 }

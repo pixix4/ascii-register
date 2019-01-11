@@ -5,12 +5,11 @@ import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.boxView
-import de.westermann.kwebview.createHtmlView
 
 class CoinBox(
         val cash: Cash,
         editable: ReadOnlyProperty<Boolean>
-) : ViewCollection<View>(createHtmlView()) {
+) : ViewCollection<View>() {
     init {
         boxView {
             +CoinGroup("2 EURO", 12, 200, cash.coin200Property, cash.previousCoin200Property, editable)

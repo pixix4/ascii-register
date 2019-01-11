@@ -489,3 +489,24 @@ body, html {
     }
   }
 }
+
+.envelope-cover {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 1.5rem;
+
+  span, input {
+    display: block;
+    height: 1.6rem;
+    line-height: 1.6rem;
+    background: transparent;
+    color: inherit;
+    border: none;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+}

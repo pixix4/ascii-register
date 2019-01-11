@@ -12,7 +12,6 @@ import de.westermann.kwebview.components.InputType
 import de.westermann.kwebview.components.boxView
 import de.westermann.kwebview.components.inputView
 import de.westermann.kwebview.components.textView
-import de.westermann.kwebview.createHtmlView
 import de.westermann.kwebview.format
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
@@ -23,7 +22,7 @@ class NoteGroup(
         val value: Int,
         val property: Property<Int>,
         editable: ReadOnlyProperty<Boolean>
-) : ViewCollection<View>(createHtmlView()) {
+) : ViewCollection<View>() {
 
     private val stringProperty = property(object : FunctionAccessor<String> {
         override fun set(value: String): Boolean {

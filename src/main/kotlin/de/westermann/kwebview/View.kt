@@ -8,7 +8,7 @@ import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
 
-abstract class View(view: HTMLElement) {
+abstract class View(view: HTMLElement = createHtmlView()) {
 
     open val html: HTMLElement = view.also { view ->
         this::class.simpleName?.let { name ->

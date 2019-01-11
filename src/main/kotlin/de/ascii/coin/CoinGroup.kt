@@ -9,7 +9,6 @@ import de.westermann.kobserve.basic.property
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.*
-import de.westermann.kwebview.createHtmlView
 import de.westermann.kwebview.format
 import org.w3c.dom.events.MouseEvent
 import kotlin.math.*
@@ -21,7 +20,7 @@ class CoinGroup(
         val property: Property<Int>,
         val previousProperty: Property<Int>,
         editable: ReadOnlyProperty<Boolean>
-) : ViewCollection<View>(createHtmlView()) {
+) : ViewCollection<View>() {
 
     private var wheelCounter: Int = 0
     private var wheelUpwards: Boolean? = null

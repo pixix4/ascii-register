@@ -6,7 +6,7 @@ import kotlin.dom.clear
 /**
  * @author lars
  */
-abstract class ViewCollection<V : View>(view: HTMLElement) : View(view), Iterable<V> {
+abstract class ViewCollection<V : View>(view: HTMLElement = createHtmlView()) : View(view), Iterable<V> {
 
     protected val children: MutableList<V> = mutableListOf()
 

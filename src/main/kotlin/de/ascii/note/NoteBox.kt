@@ -5,13 +5,11 @@ import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.boxView
-import de.westermann.kwebview.createHtmlView
-import org.w3c.dom.HTMLDivElement
 
 class NoteBox(
         private val cash: Cash,
         editable: ReadOnlyProperty<Boolean>
-) : ViewCollection<View>(createHtmlView<HTMLDivElement>()) {
+) : ViewCollection<View>() {
     init {
         boxView {
             +NoteGroup(100, cash.note100Property, editable)
