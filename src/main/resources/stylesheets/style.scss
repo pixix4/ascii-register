@@ -246,6 +246,15 @@ body, html {
     position: absolute;
     width: 100%;
     left: 0;
+    transition: opacity 0.2s;
+
+    &.extra {
+      width : 55%;
+
+      &:empty {
+        opacity: 0;
+      }
+    }
   }
 
   div {

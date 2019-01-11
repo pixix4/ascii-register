@@ -1,7 +1,6 @@
 package de.ascii
 
 import de.westermann.kwebview.components.Body
-import de.westermann.kwebview.components.boxView
 import kotlin.browser.window
 
 @Suppress("UNUSED")

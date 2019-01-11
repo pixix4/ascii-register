@@ -70,41 +70,6 @@ class Cash(
         }
     }
 
-    private fun ease(t: Double): Double {
-        var t2 = t * 2
-        return (when {
-            t2 <= 1 -> t2 * t2 * t2
-            else -> {
-                t2 -= 2
-                t2 * t2 * t2 + 2
-            }
-        }) / 2.0
-    }
-
-    private fun animate(property: Property<Int>, from: Int, to: Int) {
-        property.value = from
-
-        val start = Date.now()
-        val duration = ANIMATION_TIME
-        val end = start + duration
-
-        val delta = to - from
-
-        fun step() {
-            val now = Date.now()
-            if (now > end) {
-                property.value = to
-            } else {
-                val progress = ease((now - start) / duration)
-                property.value = from + (progress * delta).roundToInt()
-
-                async(10) { step() }
-            }
-        }
-
-        async(10) { step() }
-    }
-
     val note100Property = currentCashProperty.flatMapBinding(CashEntry::note100Property)
     val note50Property = currentCashProperty.flatMapBinding(CashEntry::note50Property)
     val note20Property = currentCashProperty.flatMapBinding(CashEntry::note20Property)
@@ -145,5 +110,40 @@ class Cash(
 
     companion object {
         const val ANIMATION_TIME = 400
+
+        private fun ease(t: Double): Double {
+            var t2 = t * 2
+            return (when {
+                t2 <= 1 -> t2 * t2 * t2
+                else -> {
+                    t2 -= 2
+                    t2 * t2 * t2 + 2
+                }
+            }) / 2.0
+        }
+
+        fun animate(property: Property<Int>, from: Int, to: Int) {
+            property.value = from
+
+            val start = Date.now()
+            val duration = ANIMATION_TIME
+            val end = start + duration
+
+            val delta = to - from
+
+            fun step() {
+                val now = Date.now()
+                if (now > end) {
+                    property.value = to
+                } else {
+                    val progress = ease((now - start) / duration)
+                    property.value = from + (progress * delta).roundToInt()
+
+                    async(10) { step() }
+                }
+            }
+
+            async(10) { step() }
+        }
     }
 }
