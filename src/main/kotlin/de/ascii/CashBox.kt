@@ -3,6 +3,7 @@ package de.ascii
 import de.ascii.coin.CoinBox
 import de.ascii.note.NoteBox
 import de.westermann.kobserve.ListenerReference
+import de.westermann.kobserve.basic.join
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.basic.property
 import de.westermann.kobserve.not
@@ -32,6 +33,10 @@ class CashBox : ViewCollection<View>() {
 
     private val snapshotTimeProperty = property(window.localStorage["snapshot"]?.toLongOrNull() ?: 0)
     private var snapshotTime by snapshotTimeProperty
+
+    private val totalErrorProperty = calculateModeProperty.join(cash.totalProperty) { calc, total ->
+        calc && total != CashEntry.default.totalProperty.value
+    }
 
     private val snapshotStringProperty = snapshotTimeProperty.mapBinding {
         val now = Date.now().toLong()
@@ -242,7 +247,9 @@ class CashBox : ViewCollection<View>() {
                     }
                 }
 
-                textView(cash.totalProperty.mapBinding { "${it.format(2)} €" })
+                textView(cash.totalProperty.mapBinding { "${it.format(2)} €" }) {
+                    classList.bind("error", totalErrorProperty)
+                }
                 targetView = textView {
                     classList += "target"
                 }
@@ -269,7 +276,7 @@ class CashBox : ViewCollection<View>() {
             +NoteBox(cash, editable)
         }
         boxView {
-            +Envelope(cash)
+            +Envelope(cash, totalErrorProperty)
         }
 
         calculateModeProperty.onChange {

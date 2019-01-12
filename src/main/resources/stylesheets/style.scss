@@ -236,7 +236,7 @@ body, html {
     position: absolute;
     width: 100%;
     left: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, background-color 0.4s;
 
     &.target {
       width : 55%;
@@ -419,6 +419,7 @@ body, html {
   text-align: center;
   font-size: 1.1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.4s;
 }
 
 .envelope-total {
@@ -507,9 +508,18 @@ body, html {
     margin: 0;
     padding: 0;
     width: 100%;
+    font-size: 1rem;
+  }
+
+  input {
+    padding: 0.2rem
   }
 
   span {
     padding-right: 0.5rem
   }
+}
+
+.error {
+  background-color: #b71c1c;
 }

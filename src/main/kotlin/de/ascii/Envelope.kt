@@ -1,5 +1,7 @@
 package de.ascii
 
+import de.westermann.kobserve.Property
+import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.minus
 import de.westermann.kwebview.View
@@ -12,13 +14,15 @@ import kotlin.browser.window
 import kotlin.js.Date
 
 class Envelope(
-        val cash: Cash
+        val cash: Cash,
+        val errorProperty: ReadOnlyProperty<Boolean>
 ) : ViewCollection<View>() {
 
     val sumProperty = cash.previousTotalProperty - cash.totalProperty
 
     init {
         boxView("envelope-header") {
+            classList.bind("error", errorProperty)
             textView("Envelope")
         }
         boxView("envelope-body") {
