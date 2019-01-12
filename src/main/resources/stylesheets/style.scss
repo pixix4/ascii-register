@@ -5,6 +5,8 @@ body, html {
   background: #303030;
   font-family: 'Montserrat', Roboto, Arial, sans-serif;
   font-weight: 600;
+  width: 100%;
+  height: 100%;
 
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -14,16 +16,23 @@ body, html {
   user-select: none;
 }
 
+body {
+  display: flex;
+  padding-bottom: 1rem;
+}
+
 .cash-box {
   border: solid 1px rgba(0, 0, 0, .25);
   border-radius: 0.4rem;
   overflow: hidden;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
   width: 60rem;
-  margin: 1rem auto;
+  min-width: 60rem;
+  max-width: 60rem;
+  margin: auto;
   position: relative;
   background-color: #424242;
-  transition: width 0.4s;
+  transition: width 0.4s, min-width 0.4s, max-width 0.4s;
 
   & > div:first-child {
     position: relative;
@@ -45,6 +54,8 @@ body, html {
 
   &.calculate {
     width: 74rem;
+    min-width: 74rem;
+    max-width: 74rem;
 
     & > div:last-child {
       opacity: 1;
@@ -239,15 +250,16 @@ body, html {
     transition: opacity 0.2s, background-color 0.4s;
 
     &.target {
-      width : 55%;
+      width: 55%;
       opacity: 0.6;
 
       &:empty {
         opacity: 0;
       }
     }
+
     &.snapshot {
-      width : 58%;
+      width: 58%;
       left: auto;
       right: 0;
       opacity: 0.6;

@@ -1,6 +1,5 @@
 package de.ascii
 
-import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.minus
