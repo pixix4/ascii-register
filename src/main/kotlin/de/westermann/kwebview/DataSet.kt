@@ -23,12 +23,7 @@ class DataSet(
      */
     operator fun plusAssign(entry: Pair<String, String>) {
         if (entry.first in bound) {
-            val p = bound[entry.first] ?: return
-            if (p.property is Property<String?>) {
-                p.property.value = entry.second
-            } else {
-                throw IllegalStateException("The given class is bound and cannot be modified manually!")
-            }
+            bound[entry.first]?.set(entry.second)
         } else {
             map[entry.first] = entry.second
         }
@@ -39,12 +34,7 @@ class DataSet(
      */
     operator fun minusAssign(key: String) {
         if (key in bound) {
-            val p = bound[key] ?: return
-            if (p.property is Property<String?>) {
-                p.property.value = null
-            } else {
-                throw IllegalStateException("The given class is bound and cannot be modified manually!")
-            }
+            bound[key]?.set(null)
         } else {
             delete(map, key)
         }
@@ -65,22 +55,20 @@ class DataSet(
                 this += key to value
             }
 
+    fun bind(key: String, property: ReadOnlyProperty<String>) {
+        if (key in bound) {
+            throw IllegalArgumentException("Class is already bound!")
+        }
+
+        bound[key] = Bound(key, null, property)
+    }
+
     fun bind(key: String, property: ReadOnlyProperty<String?>) {
         if (key in bound) {
             throw IllegalArgumentException("Class is already bound!")
         }
 
-        set(key, property.value)
-        bound[key] = Bound(property,
-                property.onChange.reference {
-                    val value = property.value
-                    if (value == null) {
-                        delete(map, key)
-                    } else {
-                        map[key] = value
-                    }
-                }
-        )
+        bound[key] = Bound(key, property, null)
     }
 
     fun unbind(key: String) {
@@ -92,8 +80,49 @@ class DataSet(
         bound -= key
     }
 
-    private data class Bound(
-            val property: ReadOnlyProperty<String?>,
-            val reference: ListenerReference<Unit>?
-    )
+    private inner class Bound(
+            val key: String,
+            val propertyNullable: ReadOnlyProperty<String?>?,
+            val property: ReadOnlyProperty<String>?
+    ) {
+
+        var reference: ListenerReference<Unit>? = null
+
+        fun set(value: String?) {
+            if (propertyNullable != null && propertyNullable is Property) {
+                propertyNullable.value = value
+            } else if (property != null && property is Property && value != null) {
+                property.value = value
+            } else {
+                throw IllegalStateException("The given class is bound and cannot be modified manually!")
+            }
+        }
+
+        init {
+            if (propertyNullable != null) {
+                reference = propertyNullable.onChange.reference {
+                    val value = propertyNullable.value
+                    if (value == null) {
+                        delete(map, key)
+                    } else {
+                        map[key] = value
+                    }
+                }
+
+                val value = propertyNullable.value
+                if (value == null) {
+                    delete(map, key)
+                } else {
+                    map[key] = value
+                }
+            } else if (property != null) {
+                reference = property.onChange.reference {
+                    map[key] = property.value
+                }
+
+                map[key] = property.value
+            }
+
+        }
+    }
 }

@@ -12,29 +12,6 @@ app.use(require('node-sass-middleware')({
     sourceMap: false
 }));
 
-app.get('/', function (req, res) {
-    fs.readFile(path.join(__dirname, 'website/index.html'), 'utf8', function (err, data) {
-        if (err) {
-            res.status(404);
-            res.send("Not found!")
-        } else {
-
-            var theme = "style";
-
-            if (req.headers.cookie && req.headers.cookie.indexOf("dark") >= 0) {
-                theme = "dark";
-            }
-
-            res.status(200);
-            res.send(data.replace(
-                "/stylesheets/style.css",
-                "/stylesheets/" + theme + ".css"
-            ))
-        }
-    });
-    //res.sendFile(path.join(__dirname, 'website/index.html'));
-});
-
 app.use('', express.static(path.join(__dirname, 'website')));
 
 app.listen(8080, function () {
