@@ -7,7 +7,7 @@ var app = express();
 app.use(require('node-sass-middleware')({
     src: path.join(__dirname, '../src/main/resources/stylesheets'),
     dest: path.join(__dirname, "website/stylesheets"),
-    prefix: "/public/stylesheets",
+    prefix: "/stylesheets",
     indentedSyntax: false,
     sourceMap: false
 }));
@@ -27,8 +27,8 @@ app.get('/', function (req, res) {
 
             res.status(200);
             res.send(data.replace(
-                "/public/stylesheets/style.css",
-                "/public/stylesheets/" + theme + ".css"
+                "/stylesheets/style.css",
+                "/stylesheets/" + theme + ".css"
             ))
         }
     });
@@ -36,8 +36,7 @@ app.get('/', function (req, res) {
 });
 
 app.use('', express.static(path.join(__dirname, 'website')));
-app.use('/public', express.static(path.join(__dirname, 'website')));
 
-app.listen(3000, function () {
-    console.log('FRaMED-io is available on http://localhost:3000!');
+app.listen(8080, function () {
+    console.log('ascii-register is available on http://localhost:8080!');
 });

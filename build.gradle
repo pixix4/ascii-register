@@ -74,3 +74,7 @@ build.doLast() {
     }
 }
 
+task deploy(type: Copy) {
+    from 'web/website'
+    into '../pixix4.github.io/ascii'
+}
