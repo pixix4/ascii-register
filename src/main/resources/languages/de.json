@@ -1,0 +1,36 @@
+{
+  "reset": "Zurücksetzen",
+  "back": "Zurück",
+  "calculate": "Berechnen",
+  "envelope": "Briefumschlag",
+  "total": "Summe",
+  "name": "Name",
+  "date": "Datum",
+  "money": "Betrag",
+  "your_name": "Dein Name",
+  "target_cash": "Zielbetrag",
+  "second": {
+    "one": "{} Sekunde",
+    "many": "{} Sekunden"
+  },
+  "minute": {
+    "one": "{} Minute",
+    "many": "{} Minuten"
+  },
+  "hour": {
+    "one": "{} Stunde",
+    "many": "{} Stunden"
+  },
+  "day": {
+    "one": "{} Tag",
+    "many": "{} Tage"
+  },
+  "month": {
+    "one": "{} Monat",
+    "many": "{} Monate"
+  },
+  "year": {
+    "one": "{} Jahr",
+    "many": "{} Jahre"
+  }
+}

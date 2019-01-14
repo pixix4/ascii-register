@@ -45,26 +45,26 @@ class CashBox : ViewCollection<View>() {
             return@mapBinding ""
         } else {
             if (diff < 60) {
-                return@mapBinding "$diff sec"
+                return@mapBinding t(diff, "second", diff)
             }
             diff /= 60
             if (diff < 60) {
-                return@mapBinding "$diff min"
+                return@mapBinding t(diff, "minute", diff)
             }
             diff /= 60
             if (diff < 24) {
-                return@mapBinding "$diff hrs"
+                return@mapBinding  t(diff, "hour", diff)
             }
             diff /= 24
             if (diff < 30) {
-                return@mapBinding "$diff days"
+                return@mapBinding  t(diff, "day", diff)
             }
             diff /= 30
             if (diff < 12) {
-                return@mapBinding "$diff month"
+                return@mapBinding  t(diff, "month", diff)
             }
             diff /= 12
-            return@mapBinding "$diff years"
+            return@mapBinding  t(diff, "year", diff)
         }
     }
 
@@ -169,7 +169,7 @@ class CashBox : ViewCollection<View>() {
                 classList += "header-box"
 
                 boxView {
-                    textView(calculateModeProperty.mapBinding { if (it) "Back" else "Reset" }) {
+                    textView(calculateModeProperty.mapBinding { if (it) t("back") else t("reset") }) {
                         onClick {
                             if (calculateMode) {
                                 calculateMode = false
@@ -226,7 +226,7 @@ class CashBox : ViewCollection<View>() {
                                 async(500) {
                                     if (hideSnapshot) {
                                         saveCash = false
-                                        targetView.text = "Target cash"
+                                        targetView.text = t("target_cash")
                                         Cash.animate(cash.note100Property, 0, target.note100Property.value)
                                         Cash.animate(cash.note50Property, 0, target.note50Property.value)
                                         Cash.animate(cash.note20Property, 0, target.note20Property.value)
@@ -258,7 +258,7 @@ class CashBox : ViewCollection<View>() {
                 }
 
                 boxView {
-                    textView("Calculate") {
+                    textView(t("calculate")) {
                         onClick {
                             if (!calculateMode) {
                                 saveCash = false

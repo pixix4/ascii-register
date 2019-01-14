@@ -282,9 +282,10 @@ body {
       line-height: 2.4rem;
       font-size: 1rem;
       color: #83c5ff;
+      transition: color 0.4s;
 
       &:hover {
-        background-color: #616161;
+        background-color: rgba(255, 255, 255, 0.2);
       }
     }
 
@@ -295,6 +296,12 @@ body {
     &:last-of-type {
       float: right;
     }
+  }
+}
+
+.calculate {
+  .header-box div span {
+    color: inherit;
   }
 }
 
@@ -521,10 +528,6 @@ body {
     padding: 0;
     width: 100%;
     font-size: 1rem;
-  }
-
-  input {
-    padding: 0.2rem
   }
 
   span {

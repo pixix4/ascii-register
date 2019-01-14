@@ -1,0 +1,36 @@
+{
+  "reset": "Reset",
+  "back": "Back",
+  "calculate": "Calculate",
+  "envelope": "Envelope",
+  "total": "Total",
+  "name": "Name",
+  "date": "Date",
+  "money": "Money",
+  "your_name": "Your name",
+  "target_cash": "Target cash",
+  "second": {
+    "one": "{} second",
+    "many": "{} seconds"
+  },
+  "minute": {
+    "one": "{} minute",
+    "many": "{} minutes"
+  },
+  "hour": {
+    "one": "{} hour",
+    "many": "{} hours"
+  },
+  "day": {
+    "one": "{} day",
+    "many": "{} days"
+  },
+  "month": {
+    "one": "{} month",
+    "many": "{} months"
+  },
+  "year": {
+    "one": "{} year",
+    "many": "{} years"
+  }
+}

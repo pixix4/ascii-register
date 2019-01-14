@@ -7,6 +7,7 @@ import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.*
 import de.westermann.kwebview.format
+import de.westermann.kwebview.t
 import org.w3c.dom.get
 import org.w3c.dom.set
 import kotlin.browser.window
@@ -22,7 +23,7 @@ class Envelope(
     init {
         boxView("envelope-header") {
             classList.bind("error", errorProperty)
-            textView("Envelope")
+            textView(t("envelope"))
         }
         boxView("envelope-body") {
             +EnvelopeEntry("100 EURO", 100.0, cash.note100Property, cash.previousNote100Property)
@@ -40,7 +41,7 @@ class Envelope(
             +EnvelopeEntry("1 CENT", 0.01, cash.coin1Property, cash.previousCoin1Property)
         }
         boxView("envelope-total") {
-            textView("Total:")
+            textView("${t("total")}:")
             inputView(sumProperty.mapBinding { "${it.format(2)} €" }) {
                 readonly = true
                 preventTabStop()
@@ -55,15 +56,23 @@ class Envelope(
         }}.${date.getFullYear()}"
 
         boxView("envelope-cover") {
-            inputView(window.localStorage["username"] ?: "<< your name >>") {
-                valueProperty.onChange {
-                    window.localStorage["username"] = value
-                }
-            }
             table {
                 row {
                     cell {
-                        textView("Date: ")
+                        textView("${t("name")}: ")
+                    }
+                    cell {
+                        inputView(window.localStorage["username"] ?: "") {
+                            valueProperty.onChange {
+                                window.localStorage["username"] = value
+                            }
+                            placeholder = t("your_name")
+                        }
+                    }
+                }
+                row {
+                    cell {
+                        textView("${t("date")}: ")
                     }
                     cell {
                         textView(dateString)
@@ -71,7 +80,7 @@ class Envelope(
                 }
                 row {
                     cell {
-                        textView("Money: ")
+                        textView("${t("money")}: ")
                     }
                     cell {
                         textView(sumProperty.mapBinding { "${it.format(2)} €" })

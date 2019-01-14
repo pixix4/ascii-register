@@ -46,6 +46,15 @@ class InputView(
 
     val valueProperty: Property<String> = property(this::value)
 
+    var placeholder: String
+        get() = html.placeholder
+        set(value) {
+            html.placeholder = value
+            placeholderProperty.invalidate()
+        }
+
+    val placeholderProperty: Property<String> = property(this::placeholder)
+
     val invalidProperty by ClassDelegate("invalid")
     var invalid by invalidProperty
 
