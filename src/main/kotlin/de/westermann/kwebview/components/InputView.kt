@@ -19,6 +19,7 @@ class InputView(
 
     fun bind(property: ReadOnlyProperty<String>) {
         valueProperty.bind(property)
+        readonly = true
     }
 
     fun bind(property: Property<String>) {

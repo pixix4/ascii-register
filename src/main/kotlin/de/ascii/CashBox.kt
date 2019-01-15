@@ -53,18 +53,18 @@ class CashBox : ViewCollection<View>() {
             }
             diff /= 60
             if (diff < 24) {
-                return@mapBinding  t(diff, "hour", diff)
+                return@mapBinding t(diff, "hour", diff)
             }
             diff /= 24
             if (diff < 30) {
-                return@mapBinding  t(diff, "day", diff)
+                return@mapBinding t(diff, "day", diff)
             }
             diff /= 30
             if (diff < 12) {
-                return@mapBinding  t(diff, "month", diff)
+                return@mapBinding t(diff, "month", diff)
             }
             diff /= 12
-            return@mapBinding  t(diff, "year", diff)
+            return@mapBinding t(diff, "year", diff)
         }
     }
 
