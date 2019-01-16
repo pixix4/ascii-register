@@ -13,7 +13,7 @@ import org.w3c.dom.events.EventListener
 
 class SelectView<T : Any>(
         dataSet: List<T>,
-        val initValue: T,
+        private val initValue: T,
         val transform: (T) -> String = { it.toString() }
 ) : ViewCollection<OptionView<T>>(createHtmlView<HTMLSelectElement>()) {
 

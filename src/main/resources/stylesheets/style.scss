@@ -296,12 +296,13 @@ body {
     &:last-of-type {
       float: right;
     }
-  }
-}
 
-.calculate {
-  .header-box div span {
-    color: inherit;
+    &.error {
+      background-color: transparent;
+      span {
+        color: #fff;
+      }
+    }
   }
 }
 

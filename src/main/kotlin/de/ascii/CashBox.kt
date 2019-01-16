@@ -169,6 +169,7 @@ class CashBox : ViewCollection<View>() {
                 classList += "header-box"
 
                 boxView {
+                    classList.bind("error", totalErrorProperty)
                     textView(calculateModeProperty.mapBinding { if (it) t("back") else t("reset") }) {
                         onClick {
                             if (calculateMode) {
@@ -258,6 +259,7 @@ class CashBox : ViewCollection<View>() {
                 }
 
                 boxView {
+                    classList.bind("error", totalErrorProperty)
                     textView(t("calculate")) {
                         onClick {
                             if (!calculateMode) {
