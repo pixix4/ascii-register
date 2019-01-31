@@ -8,7 +8,7 @@ import kotlin.dom.clear
  */
 abstract class ViewCollection<V : View>(view: HTMLElement = createHtmlView()) : View(view), Iterable<V> {
 
-    protected val children: MutableList<V> = mutableListOf()
+    private val children: MutableList<V> = mutableListOf()
 
     fun append(view: V) {
         children += view

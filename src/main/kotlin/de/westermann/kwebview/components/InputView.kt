@@ -12,6 +12,7 @@ import org.w3c.dom.events.EventListener
 import org.w3c.dom.events.KeyboardEvent
 
 class InputView(
+        type: InputType,
         initValue: String = ""
 ) : View(createHtmlView<HTMLInputElement>()) {
 
@@ -103,6 +104,7 @@ class InputView(
 
     init {
         value = initValue
+        this.type = type
 
         var lastValue = value
         val changeListener = object : EventListener {
@@ -139,16 +141,33 @@ enum class InputType(val html: String) {
 
 @KWebViewDsl
 fun ViewCollection<in InputView>.inputView(text: String = "", init: InputView.() -> Unit = {}) =
-        InputView(text).also(this::append).also(init)
+        InputView(InputType.TEXT, text).also(this::append).also(init)
 
 @KWebViewDsl
 fun ViewCollection<in InputView>.inputView(text: ReadOnlyProperty<String>, init: InputView.() -> Unit = {}) =
-        InputView(text.value).also(this::append).also { it.bind(text) }.also(init)
+        InputView(InputType.TEXT, text.value).also(this::append).also { it.bind(text) }.also(init)
 
 @KWebViewDsl
 fun ViewCollection<in InputView>.inputView(text: Property<String>, init: InputView.() -> Unit = {}) =
-        InputView(text.value).also(this::append).also { it.bind(text) }.also(init)
+        InputView(InputType.TEXT, text.value).also(this::append).also { it.bind(text) }.also(init)
 
 @KWebViewDsl
 fun ViewCollection<in InputView>.inputView(text: ValidationProperty<String>, init: InputView.() -> Unit = {}) =
-        InputView(text.value).also(this::append).also { it.bind(text) }.also(init)
+        InputView(InputType.TEXT, text.value).also(this::append).also { it.bind(text) }.also(init)
+
+
+@KWebViewDsl
+fun ViewCollection<in InputView>.inputView(type: InputType = InputType.TEXT, text: String = "", init: InputView.() -> Unit = {}) =
+        InputView(type, text).also(this::append).also(init)
+
+@KWebViewDsl
+fun ViewCollection<in InputView>.inputView(type: InputType = InputType.TEXT, text: ReadOnlyProperty<String>, init: InputView.() -> Unit = {}) =
+        InputView(type, text.value).also(this::append).also { it.bind(text) }.also(init)
+
+@KWebViewDsl
+fun ViewCollection<in InputView>.inputView(type: InputType = InputType.TEXT, text: Property<String>, init: InputView.() -> Unit = {}) =
+        InputView(type, text.value).also(this::append).also { it.bind(text) }.also(init)
+
+@KWebViewDsl
+fun ViewCollection<in InputView>.inputView(type: InputType = InputType.TEXT, text: ValidationProperty<String>, init: InputView.() -> Unit = {}) =
+        InputView(type, text.value).also(this::append).also { it.bind(text) }.also(init)

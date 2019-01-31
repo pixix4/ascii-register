@@ -32,7 +32,7 @@ class CoinBox(
         }
 
         boxView {
-            +CoinGroup("5 CENT", 13, 5, cash.coin5Property, cash.previousCoin5Property, editable)
+            +CoinGroup("5 CENT", 15, 5, cash.coin5Property, cash.previousCoin5Property, editable)
         }
 
         boxView {

@@ -1,6 +1,6 @@
 package de.ascii
 
-import de.westermann.kwebview.components.Body
+import de.westermann.kwebview.components.*
 import de.westermann.kwebview.i18n
 import org.w3c.dom.get
 import org.w3c.dom.set
