@@ -81,8 +81,10 @@ class NoteGroup(
         boxView {
             classList += "note-input"
             inputView {
-                this.type = InputType.NUMBER
+                type = InputType.NUMBER
                 min = 0.0
+                max = 200.0
+                maxLength = 3
 
                 bind(stringProperty)
 

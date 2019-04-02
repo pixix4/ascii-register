@@ -1,6 +1,8 @@
 {
   "reset": "Zurücksetzen",
   "back": "Zurück",
+  "history": "Verlauf",
+  "settings": "Einstellungen",
   "calculate": "Berechnen",
   "envelope": "Briefumschlag",
   "total": "Summe",
@@ -10,27 +12,27 @@
   "your_name": "Dein Name",
   "target_cash": "Zielbetrag",
   "second": {
-    "one": "{} Sekunde",
-    "many": "{} Sekunden"
+    "one": "vor {} Sekunde",
+    "many": "vor {} Sekunden"
   },
   "minute": {
-    "one": "{} Minute",
-    "many": "{} Minuten"
+    "one": "vor {} Minute",
+    "many": "vor {} Minuten"
   },
   "hour": {
-    "one": "{} Stunde",
-    "many": "{} Stunden"
+    "one": "vor {} Stunde",
+    "many": "vor {} Stunden"
   },
   "day": {
-    "one": "{} Tag",
-    "many": "{} Tage"
+    "one": "vor {} Tag",
+    "many": "vor {} Tage"
   },
   "month": {
-    "one": "{} Monat",
-    "many": "{} Monate"
+    "one": "vor {} Monat",
+    "many": "vor {} Monate"
   },
   "year": {
-    "one": "{} Jahr",
-    "many": "{} Jahre"
+    "one": "vor {} Jahr",
+    "many": "vor {} Jahre"
   }
 }

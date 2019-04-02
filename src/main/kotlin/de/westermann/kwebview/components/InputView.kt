@@ -14,9 +14,7 @@ import org.w3c.dom.events.KeyboardEvent
 class InputView(
         type: InputType,
         initValue: String = ""
-) : View(createHtmlView<HTMLInputElement>()) {
-
-    override val html = super.html as HTMLInputElement
+) : ViewForLabel() {
 
     fun bind(property: ReadOnlyProperty<String>) {
         valueProperty.bind(property)
@@ -66,17 +64,11 @@ class InputView(
         set(value) {
             typeInternal = value?.html
         }
-    private var requiredInternal by AttributeDelegate("required")
-    var required: Boolean
-        get() = requiredInternal != null
+    private var maxLengthInternal by AttributeDelegate("maxLength")
+    var maxLength: Int?
+        get() = maxLengthInternal?.toIntOrNull()
         set(value) {
-            requiredInternal = if (value) "required" else null
-        }
-    private var readonlyInternal by AttributeDelegate("readonly")
-    var readonly: Boolean
-        get() = readonlyInternal != null
-        set(value) {
-            readonlyInternal = if (value) "readonly" else null
+            maxLengthInternal = value?.toString()
         }
     private var minInternal by AttributeDelegate("min")
     var min: Double?
@@ -96,11 +88,6 @@ class InputView(
         set(value) {
             stepInternal = value?.toString()
         }
-
-    var tabindex by AttributeDelegate()
-    fun preventTabStop() {
-        tabindex = "-1"
-    }
 
     init {
         value = initValue
@@ -123,7 +110,7 @@ class InputView(
             }
         }
 
-        html.addEventListener("onchange", changeListener)
+        html.addEventListener("change", changeListener)
         html.addEventListener("keyup", changeListener)
         html.addEventListener("keypress", changeListener)
     }

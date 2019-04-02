@@ -1,6 +1,8 @@
 {
   "reset": "Reset",
   "back": "Back",
+  "history": "History",
+  "settings": "Settings",
   "calculate": "Calculate",
   "envelope": "Envelope",
   "total": "Total",
@@ -10,27 +12,27 @@
   "your_name": "Your name",
   "target_cash": "Target cash",
   "second": {
-    "one": "{} second",
-    "many": "{} seconds"
+    "one": "{} second ago",
+    "many": "{} seconds ago"
   },
   "minute": {
-    "one": "{} minute",
-    "many": "{} minutes"
+    "one": "{} minute ago",
+    "many": "{} minutes ago"
   },
   "hour": {
-    "one": "{} hour",
-    "many": "{} hours"
+    "one": "{} hour ago",
+    "many": "{} hours ago"
   },
   "day": {
-    "one": "{} day",
-    "many": "{} days"
+    "one": "{} day ago",
+    "many": "{} days ago"
   },
   "month": {
-    "one": "{} month",
-    "many": "{} months"
+    "one": "{} month ago",
+    "many": "{} months ago"
   },
   "year": {
-    "one": "{} year",
-    "many": "{} years"
+    "one": "{} year ago",
+    "many": "{} years ago"
   }
 }

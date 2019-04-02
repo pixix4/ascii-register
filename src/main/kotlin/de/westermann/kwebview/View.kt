@@ -19,6 +19,8 @@ abstract class View(view: HTMLElement = createHtmlView()) {
     val classList = ClassList(view.classList)
     val dataset = DataSet(view.dataset)
 
+    var id by AttributeDelegate()
+
     val clientLeft: Int
         get() = html.clientLeft
     val clientTop: Int

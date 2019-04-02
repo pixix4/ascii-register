@@ -47,6 +47,22 @@ data class CashEntry(
             coin2Property * 0.02 +
             coin1Property * 0.01
 
+    fun load(cash: CashEntry) {
+        note100Property.value = cash.note100Property.value
+        note50Property.value = cash.note50Property.value
+        note20Property.value = cash.note20Property.value
+        note10Property.value = cash.note10Property.value
+        note5Property.value = cash.note5Property.value
+        coin200Property.value = cash.coin200Property.value
+        coin100Property.value = cash.coin100Property.value
+        coin50Property.value = cash.coin50Property.value
+        coin20Property.value = cash.coin20Property.value
+        coin10Property.value = cash.coin10Property.value
+        coin5Property.value = cash.coin5Property.value
+        coin2Property.value = cash.coin2Property.value
+        coin1Property.value = cash.coin1Property.value
+    }
+
     companion object {
         val default: CashEntry
             get() = CashEntry(

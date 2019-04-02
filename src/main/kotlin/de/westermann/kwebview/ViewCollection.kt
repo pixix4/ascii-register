@@ -6,7 +6,7 @@ import kotlin.dom.clear
 /**
  * @author lars
  */
-abstract class ViewCollection<V : View>(view: HTMLElement = createHtmlView()) : View(view), Iterable<V> {
+abstract class ViewCollection<V : View>(view: HTMLElement = createHtmlView()) : View(view), Collection<V> {
 
     private val children: MutableList<V> = mutableListOf()
 
@@ -29,6 +29,32 @@ abstract class ViewCollection<V : View>(view: HTMLElement = createHtmlView()) : 
         }
     }
 
+    fun replace(oldView: V, newView: V) {
+        if (children.contains(oldView)) {
+            children.add(children.indexOf(oldView), newView)
+            html.insertBefore(newView.html, oldView.html)
+            children -= oldView
+            html.removeChild(oldView.html)
+        }
+    }
+
+    fun add(view: V) = append(view)
+
+    fun add(index: Int, view: V) {
+        if (index >= size) {
+            append(view)
+        } else {
+            html.insertBefore(view.html, children[index].html)
+            children.add(index, view)
+        }
+    }
+
+    fun removeAt(index: Int) {
+        if (index in 0 until size) {
+            remove(children[index])
+        }
+    }
+
     fun toForeground(view: V) {
         if (view in children && children.indexOf(view) < children.size - 1) {
             remove(view)
@@ -48,8 +74,7 @@ abstract class ViewCollection<V : View>(view: HTMLElement = createHtmlView()) : 
 
     operator fun minusAssign(view: V) = remove(view)
 
-    val isEmpty: Boolean
-        get() = children.isEmpty()
+    override fun isEmpty(): Boolean = children.isEmpty()
 
     fun clear() {
         children.clear()
@@ -58,10 +83,12 @@ abstract class ViewCollection<V : View>(view: HTMLElement = createHtmlView()) : 
 
     override fun iterator(): Iterator<V> = children.iterator()
 
-    val size: Int
+    override val size: Int
         get() = children.size
 
-    operator fun contains(view: V) = children.contains(view)
+    override fun contains(element: V) = children.contains(element)
+
+    override fun containsAll(elements: Collection<V>): Boolean = children.containsAll(elements)
 
     operator fun V.unaryPlus() {
         append(this)

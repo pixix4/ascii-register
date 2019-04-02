@@ -15,7 +15,7 @@ import org.w3c.dom.HTMLSpanElement
  * @author lars
  */
 class TextView(
-        value: String = ""
+    value: String = ""
 ) : View(createHtmlView<HTMLSpanElement>()) {
 
     override val html = super.html as HTMLSpanElement
@@ -44,8 +44,8 @@ class TextView(
 
 @KWebViewDsl
 fun ViewCollection<in TextView>.textView(text: String = "", init: TextView.() -> Unit = {}) =
-        TextView(text).also(this::append).also(init)
+    TextView(text).also(this::append).also(init)
 
 @KWebViewDsl
 fun ViewCollection<in TextView>.textView(text: ReadOnlyProperty<String>, init: TextView.() -> Unit = {}) =
-        TextView(text.value).also(this::append).also { it.bind(text) }.also(init)
+    TextView(text.value).also(this::append).also { it.bind(text) }.also(init)

@@ -9,6 +9,9 @@ object i18n {
     private var fallbackLocale: Locale? = null
     private var locale: Locale? = null
 
+    val currentLocale: Locale?
+        get() = locale
+
     fun register(id: String, name: String, path: String, fallback: Boolean = false) {
         val locale = Locale(id, name, path, fallback)
 
@@ -107,9 +110,12 @@ object i18n {
 
     fun t(count: Number, key: String, arguments: List<Pair<String?, Any?>>): String {
         val json = findKey(key)
+        println(count)
+        println(count == 1)
         if (count == 0 && json.hasOwnProperty("zero") as Boolean) {
             return replace(json.zero.toString(), arguments)
         } else if (count == 1 && json.hasOwnProperty("one") as Boolean) {
+            println("one")
             return replace(json.one.toString(), arguments)
         }
 
@@ -121,7 +127,7 @@ object i18n {
 
     }
 
-    private class Locale(
+    class Locale(
             val id: String,
             val name: String,
             val path: String,

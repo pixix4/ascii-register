@@ -1,6 +1,8 @@
 package de.westermann.kwebview
 
 import de.westermann.kobserve.EventHandler
+import de.westermann.kobserve.ReadOnlyProperty
+import de.westermann.kobserve.basic.property
 import org.w3c.dom.DOMRect
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
@@ -76,4 +78,23 @@ fun interval(timeout: Int, block: () -> Unit): Int {
 
 fun clearInterval(id: Int) {
     window.clearInterval(id)
+}
+
+fun <V : View> ViewCollection<V>.bindView(vararg properties: ReadOnlyProperty<*>, block: () -> V): ReadOnlyProperty<V> {
+    val viewProperty = property(block())
+    var view by viewProperty
+    +view
+
+    fun change() {
+        val new = block()
+        if (new != view) {
+            replace(view, new)
+            view = new
+        }
+    }
+    for (p in properties) {
+        p.onChange { change() }
+    }
+
+    return viewProperty
 }
