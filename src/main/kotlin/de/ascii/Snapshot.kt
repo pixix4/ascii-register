@@ -126,26 +126,26 @@ class Snapshot private constructor(
         fun formatTimeDiff(seconds: Long): String {
             var diff = seconds
             if (diff < 60) {
-                return t(diff, "second", diff)
+                return t(diff, "second", diff).value
             }
             diff /= 60
             if (diff < 60) {
-                return t(diff, "minute", diff)
+                return t(diff, "minute", diff).value
             }
             diff /= 60
             if (diff < 24) {
-                return t(diff, "hour", diff)
+                return t(diff, "hour", diff).value
             }
             diff /= 24
             if (diff < 30) {
-                return t(diff, "day", diff)
+                return t(diff, "day", diff).value
             }
             diff /= 30
             if (diff < 12) {
-                return t(diff, "month", diff)
+                return t(diff, "month", diff).value
             }
             diff /= 12
-            return t(diff, "year", diff)
+            return t(diff, "year", diff).value
         }
 
         init {

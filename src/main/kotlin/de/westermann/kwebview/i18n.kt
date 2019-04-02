@@ -1,26 +1,28 @@
 package de.westermann.kwebview
 
+import de.westermann.kobserve.basic.mapBinding
+import de.westermann.kobserve.basic.property
 import kotlin.browser.window
 
 @Suppress("ClassName")
 object i18n {
     private val data: MutableMap<String, Locale> = mutableMapOf()
 
-    private var fallbackLocale: Locale? = null
-    private var locale: Locale? = null
+    private var fallbackLocale: Locale = i18n.Locale.EMPTY
 
-    val currentLocale: Locale?
-        get() = locale
+    val localeProperty = property(Locale.EMPTY)
+    var locale by localeProperty
+
+    val availableLocales: List<Locale>
+        get() = data.values.sortedBy { it.id }
+
 
     fun register(id: String, name: String, path: String, fallback: Boolean = false) {
         val locale = Locale(id, name, path, fallback)
 
         if (fallback) {
-            if (fallbackLocale != null) {
-                throw IllegalStateException("Fallback locale is already set!")
-            }
-
             fallbackLocale = locale
+            localeProperty.invalidate()
         }
 
         data[id] = locale
@@ -41,7 +43,7 @@ object i18n {
     fun load(id: String, block: () -> Unit) {
         fun ready() {
             if (isReady) {
-                locale = data[id]
+                locale = data[id] ?: fallbackLocale
                 block()
             } else {
                 async(50) { ready() }
@@ -66,20 +68,15 @@ object i18n {
     }
 
     private fun findKey(key: String): dynamic {
-        var result: dynamic = undefined
+        var result = findKey(locale, key)
 
-        if (locale != null) {
-            result = findKey(locale!!, key)
+        if (result == undefined) {
+            result = findKey(fallbackLocale, key)
         }
 
         if (result == undefined) {
-            if (fallbackLocale != null) {
-                result = findKey(fallbackLocale!!, key)
-            }
-        }
-
-        if (result == undefined) {
-            throw InternationalizationError("Cannot find key '$key'!")
+            console.warn("Cannot translate key '$key'!")
+            return key
         } else {
             return result
         }
@@ -110,12 +107,9 @@ object i18n {
 
     fun t(count: Number, key: String, arguments: List<Pair<String?, Any?>>): String {
         val json = findKey(key)
-        println(count)
-        println(count == 1)
-        if (count == 0 && json.hasOwnProperty("zero") as Boolean) {
+        if (count.toDouble() == 0.0 && json.hasOwnProperty("zero") as Boolean) {
             return replace(json.zero.toString(), arguments)
-        } else if (count == 1 && json.hasOwnProperty("one") as Boolean) {
-            println("one")
+        } else if (count.toDouble() == 1.0 && json.hasOwnProperty("one") as Boolean) {
             return replace(json.one.toString(), arguments)
         }
 
@@ -127,27 +121,29 @@ object i18n {
 
     }
 
-    class Locale(
+    data class Locale(
             val id: String,
             val name: String,
             val path: String,
             val fallback: Boolean
     ) {
         var isLoaded = false
-        var json = js("{}")
+        var json: dynamic = js("{}")
+
+        companion object {
+            val EMPTY = Locale("__", "_", "", false).apply { isLoaded = true }
+        }
     }
 }
 
-class InternationalizationError(message: String? = null) : Error(message)
+fun t(key: String) = i18n.localeProperty.mapBinding { i18n.t(key, emptyList()) }
 
-fun t(key: String) = i18n.t(key, emptyList())
+fun t(key: String, vararg arguments: Any?) = i18n.localeProperty.mapBinding { i18n.t(key, arguments.map { null to it }) }
 
-fun t(key: String, vararg arguments: Any?) = i18n.t(key, arguments.map { null to it })
+fun t(key: String, vararg arguments: Pair<String?, Any?>) = i18n.localeProperty.mapBinding { i18n.t(key, arguments.asList()) }
 
-fun t(key: String, vararg arguments: Pair<String?, Any?>) = i18n.t(key, arguments.asList())
+fun t(count: Number, key: String) = i18n.localeProperty.mapBinding { i18n.t(count, key, emptyList()) }
 
-fun t(count: Number, key: String) = i18n.t(count, key, emptyList())
+fun t(count: Number, key: String, vararg arguments: Any?) = i18n.localeProperty.mapBinding { i18n.t(count, key, arguments.map { null to it }) }
 
-fun t(count: Number, key: String, vararg arguments: Any?) = i18n.t(count, key, arguments.map { null to it })
-
-fun t(count: Number, key: String, vararg arguments: Pair<String?, Any?>) = i18n.t(count, key, arguments.asList())
+fun t(count: Number, key: String, vararg arguments: Pair<String?, Any?>) = i18n.localeProperty.mapBinding { i18n.t(count, key, arguments.asList()) }

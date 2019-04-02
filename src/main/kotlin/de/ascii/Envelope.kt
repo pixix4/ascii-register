@@ -2,6 +2,7 @@ package de.ascii
 
 import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kobserve.basic.mapBinding
+import de.westermann.kobserve.basic.property
 import de.westermann.kobserve.minus
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
@@ -41,7 +42,7 @@ class Envelope(
             +EnvelopeEntry("1 CENT", 0.01, cash.coin1Property, cash.previousCoin1Property)
         }
         boxView("envelope-total") {
-            textView("${t("total")}:")
+            textView(t("total").mapBinding { "$it: " })
             inputView(sumProperty.mapBinding { "${it.format(2)} €" }) {
                 readonly = true
                 preventTabStop()
@@ -59,20 +60,20 @@ class Envelope(
             table {
                 row {
                     cell {
-                        textView("${t("name")}: ")
+                        textView(t("name").mapBinding { "$it: " })
                     }
                     cell {
                         inputView(window.localStorage["username"] ?: "") {
                             valueProperty.onChange {
                                 window.localStorage["username"] = value
                             }
-                            placeholder = t("your_name")
+                            property(this::placeholder ).bind(t("your_name"))
                         }
                     }
                 }
                 row {
                     cell {
-                        textView("${t("date")}: ")
+                        textView(t("date").mapBinding { "$it: " })
                     }
                     cell {
                         textView(dateString)
@@ -80,7 +81,7 @@ class Envelope(
                 }
                 row {
                     cell {
-                        textView("${t("money")}: ")
+                        textView(t("money").mapBinding { "$it: " })
                     }
                     cell {
                         textView(sumProperty.mapBinding { "${it.format(2)} €" })

@@ -3,9 +3,7 @@ package de.ascii
 import de.ascii.coin.CoinBox
 import de.ascii.note.NoteBox
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.basic.join
-import de.westermann.kobserve.basic.mapBinding
-import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.basic.*
 import de.westermann.kwebview.*
 import de.westermann.kwebview.components.*
 
@@ -55,7 +53,7 @@ class CashBox : ViewCollection<View>() {
                     classList.bind("error", totalErrorProperty)
                     val iconProperty: ReadOnlyProperty<Icon?> = modeProperty.mapBinding { if (it == Mode.EDIT) MaterialIcon.CLEAR else MaterialIcon.ARROW_BACK }
 
-                    property(this::title).bind(modeProperty.mapBinding { if (it == Mode.EDIT) t("reset") else t("back") })
+                    property(this::title).bind(modeProperty.mapBinding { if (it == Mode.EDIT) t("reset") else t("back") }.flatten())
 
                     iconView(iconProperty) {
                         onClick {
@@ -81,13 +79,13 @@ class CashBox : ViewCollection<View>() {
                         }
                     }
                     iconView(MaterialIcon.HISTORY) {
-                        title = t("history")
+                        property(this::title).bind(t("history"))
                         onClick {
                             mode = Mode.HISOTRY
                         }
                     }
                     iconView(MaterialIcon.SETTINGS) {
-                        title = t("settings")
+                        property(this::title).bind(t("settings"))
                         onClick {
                             mode = Mode.SETTINGS
                         }
@@ -96,11 +94,11 @@ class CashBox : ViewCollection<View>() {
 
                 textView(modeProperty.join(cash.totalProperty) { mode, total ->
                     when (mode) {
-                        Mode.EDIT, Mode.CALCULATE -> "${total.format(2)} €"
+                        Mode.EDIT, Mode.CALCULATE -> constProperty("${total.format(2)} €")
                         Mode.SETTINGS -> t("settings")
                         Mode.HISOTRY -> t("history")
                     }
-                }) {
+                }.flatten()) {
                     classList.bind("error", totalErrorProperty)
                 }
                 targetView = textView {

@@ -1,6 +1,5 @@
 package de.ascii
 
-import de.westermann.kobserve.EventHandler
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.basic.flatMapBinding
 import de.westermann.kobserve.basic.property

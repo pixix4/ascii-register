@@ -657,7 +657,42 @@ body {
   }
 }
 
+.select-view {
+  display: inline-block;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  outline: none;
+  text-align: center;
+  border-bottom: solid 0.2rem rgba(255, 255, 255, 0.2);
+  transition: border-bottom 0.2s;
+  margin: 0 0.25rem;
+  font-size: 1rem;
+
+  &:focus {
+    border-bottom: solid 0.2rem #ffee58;
+  }
+
+
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #FFF;
+  }
+}
+
 .settings {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
   height: 100%;
+  padding: 2rem 8rem;
+
+  & > div {
+    & > span:first-child {
+      display: block;
+      padding: 0.2rem 0.5rem;
+    }
+    input, select {
+      width: 16rem;
+      text-align: left;
+    }
+  }
 }

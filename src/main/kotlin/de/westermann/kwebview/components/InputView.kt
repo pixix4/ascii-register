@@ -6,7 +6,6 @@ import de.westermann.kobserve.ValidationProperty
 import de.westermann.kobserve.basic.property
 import de.westermann.kobserve.not
 import de.westermann.kwebview.*
-import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
 import org.w3c.dom.events.KeyboardEvent

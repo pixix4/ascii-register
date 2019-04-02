@@ -2,9 +2,10 @@ package de.westermann.kwebview.components
 
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.ValidationProperty
 import de.westermann.kobserve.basic.property
-import de.westermann.kwebview.*
+import de.westermann.kwebview.KWebViewDsl
+import de.westermann.kwebview.ViewCollection
+import de.westermann.kwebview.ViewForLabel
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
 

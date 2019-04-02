@@ -27,7 +27,7 @@ class History() : ViewCollection<View>() {
                             })
 
                             property(this::title).bind(Snapshot.nowProperty.mapBinding {
-                                Date(snapshot.date).toLocaleString(i18n.currentLocale?.id ?: "en")
+                                Date(snapshot.date).toLocaleString(i18n.locale.id)
                             })
                             onClick {
                                 snapshot.load()

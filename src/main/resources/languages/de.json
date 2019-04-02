@@ -11,6 +11,7 @@
   "money": "Betrag",
   "your_name": "Dein Name",
   "target_cash": "Zielbetrag",
+  "language": "Sprache",
   "second": {
     "one": "vor {} Sekunde",
     "many": "vor {} Sekunden"
