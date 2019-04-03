@@ -12,6 +12,8 @@
   "your_name": "Your name",
   "target_cash": "Target cash",
   "language": "Language",
+  "action": "Action",
+  "delete": "Delete",
   "second": {
     "one": "{} second ago",
     "many": "{} seconds ago"

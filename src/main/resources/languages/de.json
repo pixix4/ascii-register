@@ -12,6 +12,8 @@
   "your_name": "Dein Name",
   "target_cash": "Zielbetrag",
   "language": "Sprache",
+  "action": "Aktion",
+  "delete": "Löschen",
   "second": {
     "one": "vor {} Sekunde",
     "many": "vor {} Sekunden"

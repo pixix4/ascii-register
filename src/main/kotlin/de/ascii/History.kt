@@ -2,21 +2,18 @@ package de.ascii
 
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.basic.property
-import de.westermann.kwebview.View
-import de.westermann.kwebview.ViewCollection
+import de.westermann.kwebview.*
 import de.westermann.kwebview.components.*
 import de.westermann.kwebview.extra.listFactory
-import de.westermann.kwebview.format
-import de.westermann.kwebview.i18n
 import kotlin.js.Date
 
 class History() : ViewCollection<View>() {
     init {
         table {
             row {
-                head { textView("Date") }
-                head { textView("Total") }
-                head { textView("Action") }
+                head { textView(t("date")) }
+                head { textView(t("total")) }
+                head { textView(t("action")) }
             }
             tbody {
                 listFactory(Snapshot.sorted, { snapshot ->
@@ -41,6 +38,7 @@ class History() : ViewCollection<View>() {
                         }
                         cell {
                             iconView(MaterialIcon.DELETE) {
+                                property(this::title).bind(t("delete"))
                                 onClick {
                                     snapshot.delete()
                                 }
