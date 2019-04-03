@@ -591,6 +591,10 @@ body {
     width: 100%;
     border-collapse: collapse;
 
+    td span {
+      display: block;
+    }
+
     tr {
       th {
         span {
@@ -618,7 +622,7 @@ body {
           padding-right: 1rem;
         }
       }
-      
+
       td:not(:last-child) {
         cursor: pointer;
       }
@@ -658,6 +662,27 @@ body {
           background: rgba(#FFF, 0.1);
         }
       }
+
+      &.animate-remove {
+        tr.active ~ tr {
+          span {
+            transition: transform 380ms, opacity 380ms;
+            transform: translate(0, -2.8rem);
+          }
+
+          &:last-child {
+            transition: background-color 380ms;
+            background: transparent;
+          }
+        }
+
+        tr.active {
+          span {
+            transition: opacity 380ms;
+            opacity: 0;
+          }
+        }
+      }
     }
   }
 }
@@ -695,6 +720,7 @@ body {
       display: block;
       padding: 0.2rem 0.5rem;
     }
+
     input, select {
       width: 16rem;
       text-align: left;

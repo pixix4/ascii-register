@@ -19,7 +19,7 @@ class History() : ViewCollection<View>() {
                 head { textView("Action") }
             }
             tbody {
-                listFactory(Snapshot.sorted, factory = { snapshot ->
+                listFactory(Snapshot.sorted, { snapshot ->
                     TableRow().apply {
                         cell {
                             textView(Snapshot.nowProperty.mapBinding {
@@ -47,7 +47,7 @@ class History() : ViewCollection<View>() {
                             }
                         }
                     }
-                })
+                }, animateRemove = 400)
             }
         }
     }

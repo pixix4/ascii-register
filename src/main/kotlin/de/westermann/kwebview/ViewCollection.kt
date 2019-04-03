@@ -49,6 +49,10 @@ abstract class ViewCollection<V : View>(view: HTMLElement = createHtmlView()) : 
         }
     }
 
+    operator fun get(index: Int): V {
+        return children[index]
+    }
+
     fun removeAt(index: Int) {
         if (index in 0 until size) {
             remove(children[index])
