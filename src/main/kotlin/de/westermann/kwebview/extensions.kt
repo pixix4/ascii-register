@@ -7,6 +7,7 @@ import org.w3c.dom.DOMRect
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
+import org.w3c.dom.events.EventTarget
 import org.w3c.dom.events.MouseEvent
 import kotlin.browser.document
 import kotlin.browser.window
@@ -26,7 +27,7 @@ inline fun <reified V : HTMLElement> createHtmlView(tag: String? = null): V {
 
 fun String.toDashCase() = replace("([a-z])([A-Z])".toRegex(), "$1-$2").toLowerCase()
 
-inline fun <reified T> EventHandler<T>.bind(element: HTMLElement, event: String) {
+inline fun <reified T> EventHandler<T>.bind(element: EventTarget, event: String) {
     val listener = object : EventListener {
         override fun handleEvent(event: Event) {
             this@bind.emit(event as T)

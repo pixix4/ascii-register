@@ -618,6 +618,10 @@ body {
           padding-right: 1rem;
         }
       }
+      
+      td:not(:last-child) {
+        cursor: pointer;
+      }
 
       td:nth-child(1) span {
         display: block;
@@ -631,6 +635,7 @@ body {
 
         span {
           padding-right: 1rem;
+          cursor: pointer;
         }
       }
     }

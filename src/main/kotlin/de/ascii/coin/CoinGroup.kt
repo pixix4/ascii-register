@@ -6,10 +6,12 @@ import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kobserve.basic.FunctionAccessor
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.basic.property
+import de.westermann.kwebview.Document
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.*
 import de.westermann.kwebview.format
+import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.events.MouseEvent
 import kotlin.math.*
 
@@ -24,6 +26,7 @@ class CoinGroup(
 
     private var wheelCounter: Int = 0
     private var wheelUpwards: Boolean? = null
+    private var isHovered = false
 
     private val stringProperty = property(object : FunctionAccessor<String> {
         override fun set(value: String): Boolean {
@@ -141,6 +144,42 @@ class CoinGroup(
             it.preventDefault()
             it.stopPropagation()
         }
+        onMouseEnter {
+            isHovered = true
+        }
+        onMouseLeave {
+            isHovered = false
+        }
+
+        Document.onKeyDown {
+            if (editable.value && isHovered) {
+                if (it.target is HTMLInputElement) {
+                    return@onKeyDown
+                }
+                when (it.keyCode) {
+                    33 -> {
+                        property.value = ((property.value / 5) + 1) * 5
+                    }
+                    34 -> {
+                        if (property.value > 0) {
+                            if (property.value % 5 == 0) {
+                                property.value = ((property.value / 5) - 1) * 5
+                            } else {
+                                property.value = ((property.value / 5)) * 5
+                            }
+                        }
+                    }
+                    38 -> {
+                        property.value += 1
+                    }
+                    40 -> {
+                        if (property.value > 0) {
+                            property.value -= 1
+                        }
+                    }
+                }
+            }
+        }
 
         boxView {
             onMouseDown {
@@ -160,19 +199,17 @@ class CoinGroup(
                 }
                 readonly = !editable.value
 
-                onKeyPress {
-                    if (editable.value) {
-                        when (it.keyCode) {
-                            33 -> {
-                                property.value = ((property.value / 5) + 1) * 5
-                            }
-                            34 -> {
-                                if (property.value > 0) {
-                                    if (property.value % 5 == 0) {
-                                        property.value = ((property.value / 5) - 1) * 5
-                                    } else {
-                                        property.value = ((property.value / 5)) * 5
-                                    }
+                onKeyDown {
+                    when (it.keyCode) {
+                        33 -> {
+                            property.value = ((property.value / 5) + 1) * 5
+                        }
+                        34 -> {
+                            if (property.value > 0) {
+                                if (property.value % 5 == 0) {
+                                    property.value = ((property.value / 5) - 1) * 5
+                                } else {
+                                    property.value = ((property.value / 5)) * 5
                                 }
                             }
                         }

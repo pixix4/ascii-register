@@ -6,6 +6,7 @@ import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kobserve.basic.FunctionAccessor
 import de.westermann.kobserve.basic.mapBinding
 import de.westermann.kobserve.basic.property
+import de.westermann.kwebview.Document
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
 import de.westermann.kwebview.components.InputType
@@ -13,6 +14,7 @@ import de.westermann.kwebview.components.boxView
 import de.westermann.kwebview.components.inputView
 import de.westermann.kwebview.components.textView
 import de.westermann.kwebview.format
+import org.w3c.dom.HTMLInputElement
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlin.math.sign
@@ -43,6 +45,7 @@ class NoteGroup(
 
     private var wheelCounter: Int = 0
     private var wheelUpwards: Boolean? = null
+    private var isHovered = false
 
     init {
         textView("$value EURO") {
@@ -75,6 +78,42 @@ class NoteGroup(
                     display = if (editable.value) "block" else "none"
                 }
                 display = if (editable.value) "block" else "none"
+            }
+        }
+        onMouseEnter {
+            isHovered = true
+        }
+        onMouseLeave {
+            isHovered = false
+        }
+
+        Document.onKeyDown {
+            if (editable.value && isHovered) {
+                if (it.target is HTMLInputElement) {
+                    return@onKeyDown
+                }
+                when (it.keyCode) {
+                    33 -> {
+                        property.value = ((property.value / 5) + 1) * 5
+                    }
+                    34 -> {
+                        if (property.value > 0) {
+                            if (property.value % 5 == 0) {
+                                property.value = ((property.value / 5) - 1) * 5
+                            } else {
+                                property.value = ((property.value / 5)) * 5
+                            }
+                        }
+                    }
+                    38 -> {
+                        property.value += 1
+                    }
+                    40 -> {
+                        if (property.value > 0) {
+                            property.value -= 1
+                        }
+                    }
+                }
             }
         }
 
