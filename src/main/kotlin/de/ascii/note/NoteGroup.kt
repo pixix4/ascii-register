@@ -1,51 +1,23 @@
 package de.ascii.note
 
-import de.ascii.coin.CoinGroup
+import de.ascii.MoneyGroup
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.basic.FunctionAccessor
 import de.westermann.kobserve.basic.mapBinding
-import de.westermann.kobserve.basic.property
-import de.westermann.kwebview.Document
-import de.westermann.kwebview.View
-import de.westermann.kwebview.ViewCollection
-import de.westermann.kwebview.components.InputType
+import de.westermann.kwebview.async
+import de.westermann.kwebview.components.InputView
 import de.westermann.kwebview.components.boxView
 import de.westermann.kwebview.components.inputView
 import de.westermann.kwebview.components.textView
 import de.westermann.kwebview.format
-import org.w3c.dom.HTMLInputElement
-import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
-import kotlin.math.sign
-import kotlin.math.sqrt
 
 class NoteGroup(
         val value: Int,
-        val property: Property<Int>,
+        property: Property<Int>,
         editable: ReadOnlyProperty<Boolean>
-) : ViewCollection<View>() {
+) : MoneyGroup(property, editable, Note.MAX_ANGLE * 2) {
 
-    private val stringProperty = property(object : FunctionAccessor<String> {
-        override fun set(value: String): Boolean {
-            if (editable.value) {
-                val number = value.toIntOrNull() ?: 0
-                property.value = kotlin.math.max(number, 0)
-                if (number < 0) {
-                    property.onChange.emit(Unit)
-                }
-            }
-            return true
-        }
-
-        override fun get(): String {
-            return property.value.toString()
-        }
-    }, property)
-
-    private var wheelCounter: Int = 0
-    private var wheelUpwards: Boolean? = null
-    private var isHovered = false
+    override lateinit var input: InputView
 
     init {
         textView("$value EURO") {
@@ -80,49 +52,10 @@ class NoteGroup(
                 display = if (editable.value) "block" else "none"
             }
         }
-        onMouseEnter {
-            isHovered = true
-        }
-        onMouseLeave {
-            isHovered = false
-        }
-
-        Document.onKeyDown {
-            if (editable.value && isHovered) {
-                if (it.target is HTMLInputElement) {
-                    return@onKeyDown
-                }
-                when (it.keyCode) {
-                    33 -> {
-                        property.value = ((property.value / 5) + 1) * 5
-                    }
-                    34 -> {
-                        if (property.value > 0) {
-                            if (property.value % 5 == 0) {
-                                property.value = ((property.value / 5) - 1) * 5
-                            } else {
-                                property.value = ((property.value / 5)) * 5
-                            }
-                        }
-                    }
-                    38 -> {
-                        property.value += 1
-                    }
-                    40 -> {
-                        if (property.value > 0) {
-                            property.value -= 1
-                        }
-                    }
-                }
-            }
-        }
 
         boxView {
             classList += "note-input"
-            inputView {
-                type = InputType.NUMBER
-                min = 0.0
-                max = 200.0
+            input = inputView {
                 maxLength = 3
 
                 bind(stringProperty)
@@ -132,24 +65,21 @@ class NoteGroup(
                 }
                 readonly = !editable.value
 
-                onKeyPress {
-                    if (editable.value) {
-                        when (it.keyCode) {
-                            33 -> {
-                                property.value = ((property.value / 5) + 1) * 5
-                            }
-                            34 -> {
-                                if (property.value > 0) {
-                                    if (property.value % 5 == 0) {
-                                        property.value = ((property.value / 5) - 1) * 5
-                                    } else {
-                                        property.value = ((property.value / 5)) * 5
-                                    }
-                                }
-                            }
+                var focused = false
+
+                onFocus {
+                    if (!focused) {
+                        focused = true
+                        async {
+                            selectRange(0, value.length)
                         }
                     }
                 }
+                onBlur {
+                    focused = false
+                }
+
+                onKeyDown(this@NoteGroup::onKeyDown)
             }
             inputView {
                 readonly = true
@@ -159,27 +89,6 @@ class NoteGroup(
                     (it * this@NoteGroup.value.toDouble()).format(2) + " €"
                 })
             }
-        }
-
-
-        onWheel {
-            if (editable.value) {
-                if (it.deltaY > 0 && wheelUpwards != false) {
-                    wheelUpwards = false
-                    wheelCounter = 0
-                } else if (it.deltaY < 0 && wheelUpwards != true) {
-                    wheelUpwards = true
-                    wheelCounter = 0
-                }
-
-                wheelCounter += sqrt(it.deltaY.absoluteValue).roundToInt()
-                val toAdd = -it.deltaY.sign.toInt() * (wheelCounter / CoinGroup.WHEEL_THRESHOLD)
-                wheelCounter %= CoinGroup.WHEEL_THRESHOLD
-                property.value = kotlin.math.min(kotlin.math.max(0, property.value + toAdd), Note.MAX_ANGLE * 2)
-            }
-
-            it.preventDefault()
-            it.stopPropagation()
         }
     }
 }

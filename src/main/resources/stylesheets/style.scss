@@ -688,8 +688,13 @@ body {
 }
 
 .select-view {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.2);
+  background-color: inherit;
   display: inline-block;
-  background-color: transparent;
   color: #fff;
   border: none;
   outline: none;
@@ -708,6 +713,11 @@ body {
     color: transparent;
     text-shadow: 0 0 0 #FFF;
   }
+}
+option {
+  background: inherit;
+  border-top: 1px solid #444;
+  padding: .3em 1em .3em 1em;
 }
 
 .settings {

@@ -1,51 +1,26 @@
 package de.ascii.coin
 
+import de.ascii.MoneyGroup
 import de.westermann.kobserve.ListenerReference
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.basic.FunctionAccessor
 import de.westermann.kobserve.basic.mapBinding
-import de.westermann.kobserve.basic.property
-import de.westermann.kwebview.Document
-import de.westermann.kwebview.View
-import de.westermann.kwebview.ViewCollection
+import de.westermann.kwebview.async
 import de.westermann.kwebview.components.*
 import de.westermann.kwebview.format
-import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.events.MouseEvent
-import kotlin.math.*
 
 class CoinGroup(
         name: String,
         stackCount: Int,
         private val value: Int,
-        val property: Property<Int>,
-        val previousProperty: Property<Int>,
+        property: Property<Int>,
+        private val previousProperty: Property<Int>,
         editable: ReadOnlyProperty<Boolean>
-) : ViewCollection<View>() {
+) : MoneyGroup(property, editable, stackCount * 5) {
 
-    private var wheelCounter: Int = 0
-    private var wheelUpwards: Boolean? = null
-    private var isHovered = false
 
-    private val stringProperty = property(object : FunctionAccessor<String> {
-        override fun set(value: String): Boolean {
-            if (editable.value) {
-                val number = value.toIntOrNull() ?: 0
-                property.value = max(number, 0)
-                if (number < 0) {
-                    property.onChange.emit(Unit)
-                }
-            }
-            return true
-        }
-
-        override fun get(): String {
-            return property.value.toString()
-        }
-    }, property)
-
-    private val maximum = stackCount * 5
+    override lateinit var input: InputView
 
     private fun updateCoin(coin: Coin) {
         coin.classList["active"] = coin.position < property.value
@@ -125,61 +100,6 @@ class CoinGroup(
                 Body.onMouseUp.reference(mousemove)?.let(references::add)
             }
         }
-        onWheel {
-            if (editable.value) {
-                if (it.deltaY > 0 && wheelUpwards != false) {
-                    wheelUpwards = false
-                    wheelCounter = 0
-                } else if (it.deltaY < 0 && wheelUpwards != true) {
-                    wheelUpwards = true
-                    wheelCounter = 0
-                }
-
-                wheelCounter += sqrt(it.deltaY.absoluteValue).roundToInt()
-                val toAdd = -it.deltaY.sign.toInt() * (wheelCounter / WHEEL_THRESHOLD)
-                wheelCounter %= WHEEL_THRESHOLD
-                property.value = min(max(0, property.value + toAdd), 2 * maximum)
-            }
-
-            it.preventDefault()
-            it.stopPropagation()
-        }
-        onMouseEnter {
-            isHovered = true
-        }
-        onMouseLeave {
-            isHovered = false
-        }
-
-        Document.onKeyDown {
-            if (editable.value && isHovered) {
-                if (it.target is HTMLInputElement) {
-                    return@onKeyDown
-                }
-                when (it.keyCode) {
-                    33 -> {
-                        property.value = ((property.value / 5) + 1) * 5
-                    }
-                    34 -> {
-                        if (property.value > 0) {
-                            if (property.value % 5 == 0) {
-                                property.value = ((property.value / 5) - 1) * 5
-                            } else {
-                                property.value = ((property.value / 5)) * 5
-                            }
-                        }
-                    }
-                    38 -> {
-                        property.value += 1
-                    }
-                    40 -> {
-                        if (property.value > 0) {
-                            property.value -= 1
-                        }
-                    }
-                }
-            }
-        }
 
         boxView {
             onMouseDown {
@@ -188,9 +108,8 @@ class CoinGroup(
 
             classList += "coin-input"
 
-            inputView {
-                this.type = InputType.NUMBER
-                min = 0.0
+            input = inputView {
+                maxLength = 3
 
                 bind(stringProperty)
 
@@ -199,22 +118,21 @@ class CoinGroup(
                 }
                 readonly = !editable.value
 
-                onKeyDown {
-                    when (it.keyCode) {
-                        33 -> {
-                            property.value = ((property.value / 5) + 1) * 5
-                        }
-                        34 -> {
-                            if (property.value > 0) {
-                                if (property.value % 5 == 0) {
-                                    property.value = ((property.value / 5) - 1) * 5
-                                } else {
-                                    property.value = ((property.value / 5)) * 5
-                                }
-                            }
+                var focused = false
+
+                onFocus {
+                    if (!focused) {
+                        focused = true
+                        async {
+                            selectRange(0, value.length)
                         }
                     }
                 }
+                onBlur {
+                    focused = false
+                }
+
+                onKeyDown(this@CoinGroup::onKeyDown)
             }
             inputView {
                 readonly = true
@@ -225,9 +143,5 @@ class CoinGroup(
                 })
             }
         }
-    }
-
-    companion object {
-        const val WHEEL_THRESHOLD: Int = 4
     }
 }

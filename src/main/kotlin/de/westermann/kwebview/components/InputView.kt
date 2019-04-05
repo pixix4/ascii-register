@@ -88,6 +88,13 @@ class InputView(
             stepInternal = value?.toString()
         }
 
+    val selectionStart: Int?
+        get() = html.selectionStart
+    val selectionEnd: Int?
+        get() = html.selectionEnd
+
+    fun selectRange(start: Int, end: Int = start) = html.setSelectionRange(start, end)
+
     init {
         value = initValue
         this.type = type

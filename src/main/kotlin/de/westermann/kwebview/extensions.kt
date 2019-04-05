@@ -5,10 +5,7 @@ import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kobserve.basic.property
 import org.w3c.dom.DOMRect
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.EventListener
-import org.w3c.dom.events.EventTarget
-import org.w3c.dom.events.MouseEvent
+import org.w3c.dom.events.*
 import kotlin.browser.document
 import kotlin.browser.window
 
@@ -99,3 +96,6 @@ fun <V : View> ViewCollection<V>.bindView(vararg properties: ReadOnlyProperty<*>
 
     return viewProperty
 }
+
+val KeyboardEvent.modifierKey: Boolean
+    get() = altKey || ctrlKey || shiftKey
