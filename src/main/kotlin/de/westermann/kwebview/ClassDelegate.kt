@@ -1,7 +1,7 @@
 package de.westermann.kwebview
 
 import de.westermann.kobserve.Property
-import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.property.property
 import kotlin.reflect.KProperty
 
 /**

@@ -1,7 +1,7 @@
 package de.westermann.kwebview
 
-import de.westermann.kobserve.basic.mapBinding
-import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.property.mapBinding
+import de.westermann.kobserve.property.property
 import kotlin.browser.window
 
 @Suppress("ClassName")

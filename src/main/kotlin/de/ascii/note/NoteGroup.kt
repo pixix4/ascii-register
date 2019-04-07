@@ -3,7 +3,7 @@ package de.ascii.note
 import de.ascii.MoneyGroup
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.basic.mapBinding
+import de.westermann.kobserve.property.mapBinding
 import de.westermann.kwebview.async
 import de.westermann.kwebview.components.InputView
 import de.westermann.kwebview.components.boxView

@@ -3,7 +3,9 @@ package de.ascii
 import de.ascii.coin.CoinBox
 import de.ascii.note.NoteBox
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.basic.*
+import de.westermann.kobserve.event.emit
+import de.westermann.kobserve.event.subscribe
+import de.westermann.kobserve.property.*
 import de.westermann.kwebview.*
 import de.westermann.kwebview.components.*
 
@@ -57,25 +59,7 @@ class CashBox : ViewCollection<View>() {
 
                     iconView(iconProperty) {
                         onClick {
-                            if (mode == Mode.CALCULATE) {
-                                async(300) {
-                                    val current = cash.previousCash.copy()
-                                    cash.shift(cash.previousCash, true)
-                                    cash.previousCash = current
-                                    async(Cash.ANIMATION_TIME) {
-                                        cash.previousCash = CashEntry()
-                                        saveCash = true
-                                    }
-                                }
-                            } else if (mode == Mode.EDIT) {
-                                saveCash = false
-                                cash.shift(CashEntry(), true)
-                                cash.previousCash = CashEntry()
-                                async(Cash.ANIMATION_TIME) {
-                                    saveCash = true
-                                }
-                            }
-                            mode = Mode.EDIT
+                            emit(ResetEvent)
                         }
                     }
                     iconView(MaterialIcon.HISTORY) {
@@ -112,13 +96,7 @@ class CashBox : ViewCollection<View>() {
                     classList.bind("error", totalErrorProperty)
                     textView(t("calculate")) {
                         onClick {
-                            if (mode == Mode.EDIT) {
-                                saveCash = false
-                                cash.calculate()
-                                async(Cash.ANIMATION_TIME + 200) {
-                                    mode = Mode.CALCULATE
-                                }
-                            }
+                            emit(CalculateEvent)
                         }
                     }
                 }
@@ -160,8 +138,42 @@ class CashBox : ViewCollection<View>() {
             saveCash = oldSave
             mode = Mode.EDIT
         }
+
+        subscribe<CalculateEvent> {
+            if (mode == Mode.EDIT) {
+                saveCash = false
+                cash.calculate()
+                async(Cash.ANIMATION_TIME + 200) {
+                    mode = Mode.CALCULATE
+                }
+            }
+        }
+        subscribe<ResetEvent> {
+            if (mode == Mode.CALCULATE) {
+                async(300) {
+                    val current = cash.previousCash.copy()
+                    cash.shift(cash.previousCash, true)
+                    cash.previousCash = current
+                    async(Cash.ANIMATION_TIME) {
+                        cash.previousCash = CashEntry()
+                        saveCash = true
+                    }
+                }
+            } else if (mode == Mode.EDIT) {
+                saveCash = false
+                cash.shift(CashEntry(), true)
+                cash.previousCash = CashEntry()
+                async(Cash.ANIMATION_TIME) {
+                    saveCash = true
+                }
+            }
+            mode = Mode.EDIT
+        }
     }
 }
+
+object CalculateEvent
+object ResetEvent
 
 enum class Mode {
     EDIT, CALCULATE, SETTINGS, HISOTRY

@@ -2,7 +2,7 @@ package de.westermann.kwebview.components
 
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.property.property
 import de.westermann.kwebview.*
 import org.w3c.dom.HTMLImageElement
 

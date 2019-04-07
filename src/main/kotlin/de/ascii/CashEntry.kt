@@ -1,6 +1,6 @@
 package de.ascii
 
-import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.property.property
 import de.westermann.kobserve.plus
 import de.westermann.kobserve.times
 

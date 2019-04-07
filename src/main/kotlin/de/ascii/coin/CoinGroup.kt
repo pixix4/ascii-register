@@ -1,10 +1,10 @@
 package de.ascii.coin
 
 import de.ascii.MoneyGroup
-import de.westermann.kobserve.ListenerReference
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.basic.mapBinding
+import de.westermann.kobserve.event.EventListener
+import de.westermann.kobserve.property.mapBinding
 import de.westermann.kwebview.async
 import de.westermann.kwebview.components.*
 import de.westermann.kwebview.format
@@ -62,11 +62,11 @@ class CoinGroup(
             }
         }
 
-        val references = mutableListOf<ListenerReference<*>>()
+        val references = mutableListOf<EventListener<*>>()
 
         val mousemove = lambda@{ event: MouseEvent ->
             if (event.type == "mouseup" || event.buttons == 0.toShort()) {
-                references.forEach { it.remove() }
+                references.forEach { it.detach() }
                 references.clear()
             }
 
@@ -96,8 +96,8 @@ class CoinGroup(
             if (editable.value) {
                 mousemove(it)
 
-                Body.onMouseMove.reference(mousemove)?.let(references::add)
-                Body.onMouseUp.reference(mousemove)?.let(references::add)
+                references += Body.onMouseMove.reference(mousemove)
+                references += Body.onMouseUp.reference(mousemove)
             }
         }
 

@@ -2,8 +2,9 @@ package de.ascii
 
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.basic.FunctionAccessor
-import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.event.emit
+import de.westermann.kobserve.property.FunctionAccessor
+import de.westermann.kobserve.property.property
 import de.westermann.kwebview.Document
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
@@ -61,7 +62,7 @@ abstract class MoneyGroup(
                     event.preventDefault()
                     return
                 }
-                34, 40, 76 -> {
+                34, 40, 74 -> {
                     if (property.value > 0) {
                         if (event.keyCode == 34 || event.modifierKey) {
                             if (property.value % 5 == 0) {
@@ -89,21 +90,27 @@ abstract class MoneyGroup(
                 8, 9, 46, in 112..123 -> {
                     // Pass through this keys
                 }
-                37, 74 -> {
-                    if (event.keyCode == 74) event.preventDefault()
+                37, 72 -> {
+                    if (event.keyCode == 72) event.preventDefault()
                     if (input.selectionStart == 0 && input.selectionStart == input.selectionEnd || event.modifierKey) {
                         previousView(this)
                     } else {
                         input.selectRange(0)
                     }
                 }
-                39, 59 -> {
-                    if (event.keyCode == 59) event.preventDefault()
+                39, 76 -> {
+                    if (event.keyCode == 76) event.preventDefault()
                     if (input.selectionStart == input.value.length && input.selectionStart == input.selectionEnd || event.modifierKey) {
                         nextView(this)
                     } else {
                         input.selectRange(input.value.length)
                     }
+                }
+                13 -> {
+                    emit(CalculateEvent)
+                }
+                27 -> {
+                    emit(ResetEvent)
                 }
                 else -> {
                     //println("prevent ${event.keyCode}")

@@ -1,8 +1,8 @@
 package de.ascii
 
 import de.westermann.kobserve.ReadOnlyProperty
-import de.westermann.kobserve.basic.mapBinding
-import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.property.mapBinding
+import de.westermann.kobserve.property.property
 import de.westermann.kobserve.minus
 import de.westermann.kwebview.View
 import de.westermann.kwebview.ViewCollection
@@ -19,7 +19,7 @@ class Envelope(
         val errorProperty: ReadOnlyProperty<Boolean>
 ) : ViewCollection<View>() {
 
-    val sumProperty = cash.previousTotalProperty - cash.totalProperty
+    private val sumProperty = cash.previousTotalProperty - cash.totalProperty
 
     init {
         boxView("envelope-header") {

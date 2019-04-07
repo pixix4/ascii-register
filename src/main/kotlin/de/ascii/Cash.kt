@@ -1,8 +1,8 @@
 package de.ascii
 
 import de.westermann.kobserve.Property
-import de.westermann.kobserve.basic.flatMapBinding
-import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.property.flatMapBinding
+import de.westermann.kobserve.property.property
 import de.westermann.kwebview.async
 import kotlin.js.Date
 import kotlin.math.roundToInt

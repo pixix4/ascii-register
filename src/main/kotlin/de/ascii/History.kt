@@ -1,7 +1,7 @@
 package de.ascii
 
-import de.westermann.kobserve.basic.mapBinding
-import de.westermann.kobserve.basic.property
+import de.westermann.kobserve.property.mapBinding
+import de.westermann.kobserve.property.property
 import de.westermann.kwebview.*
 import de.westermann.kwebview.components.*
 import de.westermann.kwebview.extra.listFactory

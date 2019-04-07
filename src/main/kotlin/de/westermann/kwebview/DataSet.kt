@@ -1,8 +1,8 @@
 package de.westermann.kwebview
 
-import de.westermann.kobserve.ListenerReference
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
+import de.westermann.kobserve.event.EventListener
 import org.w3c.dom.DOMStringMap
 import org.w3c.dom.get
 import org.w3c.dom.set
@@ -76,7 +76,7 @@ class DataSet(
             throw IllegalArgumentException("Class is not bound!")
         }
 
-        bound[key]?.reference?.remove()
+        bound[key]?.reference?.detach()
         bound -= key
     }
 
@@ -86,7 +86,7 @@ class DataSet(
             val property: ReadOnlyProperty<String>?
     ) {
 
-        var reference: ListenerReference<Unit>? = null
+        lateinit var reference: EventListener<Unit>
 
         fun set(value: String?) {
             if (propertyNullable != null && propertyNullable is Property) {

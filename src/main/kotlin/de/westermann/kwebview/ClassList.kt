@@ -1,8 +1,8 @@
 package de.westermann.kwebview
 
-import de.westermann.kobserve.ListenerReference
 import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
+import de.westermann.kobserve.event.EventListener
 import org.w3c.dom.DOMTokenList
 
 /**
@@ -102,7 +102,7 @@ class ClassList(
             throw IllegalArgumentException("Class is not bound!")
         }
 
-        bound[clazz]?.reference?.remove()
+        bound[clazz]?.reference?.detach()
         bound -= clazz
     }
 
@@ -114,6 +114,6 @@ class ClassList(
 
     private data class Bound(
             val property: ReadOnlyProperty<Boolean>,
-            val reference: ListenerReference<Unit>?
+            val reference: EventListener<Unit>
     )
 }
