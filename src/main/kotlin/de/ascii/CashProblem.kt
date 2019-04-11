@@ -40,7 +40,7 @@ object CashProblem {
         private val weight = when (value) {
             100.0 -> 10.0
             50.0 -> 10.0
-            20.0 -> 1.5
+            20.0 -> 4.0
             10.0 -> 1.1
             5.0 -> 1.1
             2.0 -> 1.0
