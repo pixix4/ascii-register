@@ -90,27 +90,40 @@ abstract class MoneyGroup(
                 8, 9, 46, in 112..123 -> {
                     // Pass through this keys
                 }
-                37, 72 -> {
-                    if (event.keyCode == 72) event.preventDefault()
+                72 -> {
+                    event.preventDefault()
+                    previousView(this)
+                }
+                37 -> {
                     if (input.selectionStart == 0 && input.selectionStart == input.selectionEnd || event.modifierKey) {
                         previousView(this)
                     } else {
-                        input.selectRange(0)
+                        val start = input.selectionStart
+                        if (start == null || start == 0) {
+                            input.selectRange(0)
+                        } else {
+                            input.selectRange(start -1)
+                        }
                     }
                 }
-                39, 76 -> {
-                    if (event.keyCode == 76) event.preventDefault()
+                76 -> {
+                    event.preventDefault()
+                    nextView(this)
+                }
+                39 -> {
                     if (input.selectionStart == input.value.length && input.selectionStart == input.selectionEnd || event.modifierKey) {
                         nextView(this)
                     } else {
-                        input.selectRange(input.value.length)
+                        val start = input.selectionStart
+                        if (start == null || start == input.value.length) {
+                            input.selectRange(input.value.length)
+                        } else {
+                            input.selectRange(start + 1)
+                        }
                     }
                 }
                 13 -> {
                     emit(CalculateEvent)
-                }
-                27 -> {
-                    emit(ResetEvent)
                 }
                 else -> {
                     //println("prevent ${event.keyCode}")
