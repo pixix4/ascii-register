@@ -38,6 +38,8 @@ class CashBox : ViewCollection<View>() {
         else Snapshot.formatTimeDiff(diff)
     }
 
+    private val bookDialog = BookDialog(cash)
+
     init {
         Snapshot.newestSnapshot.value?.let {
             cash.currentCash.load(it.cash)
@@ -65,12 +67,18 @@ class CashBox : ViewCollection<View>() {
                     iconView(MaterialIcon.HISTORY) {
                         property(this::title).bind(t("history"))
                         onClick {
+                            if (mode == Mode.CALCULATE) {
+                                emit(ResetEvent)
+                            }
                             mode = Mode.HISOTRY
                         }
                     }
                     iconView(MaterialIcon.SETTINGS) {
                         property(this::title).bind(t("settings"))
                         onClick {
+                            if (mode == Mode.CALCULATE) {
+                                emit(ResetEvent)
+                            }
                             mode = Mode.SETTINGS
                         }
                     }
@@ -145,11 +153,13 @@ class CashBox : ViewCollection<View>() {
                 cash.calculate()
                 async(Cash.ANIMATION_TIME + 200) {
                     mode = Mode.CALCULATE
+                    bookDialog.show()
                 }
             }
         }
         subscribe<ResetEvent> {
             if (mode == Mode.CALCULATE) {
+                bookDialog.hide()
                 async(300) {
                     val current = cash.previousCash.copy()
                     cash.shift(cash.previousCash, true)
@@ -169,6 +179,7 @@ class CashBox : ViewCollection<View>() {
             }
             mode = Mode.EDIT
         }
+        +bookDialog
     }
 }
 

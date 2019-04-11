@@ -49,13 +49,6 @@ class Envelope(
             }
         }
 
-        val date = Date()
-        val dateString = "${date.getDate().let {
-            if (it < 10) "0$it" else it
-        }}.${(date.getMonth() + 1).let {
-            if (it < 10) "0$it" else it
-        }}.${date.getFullYear()}"
-
         boxView("envelope-cover") {
             table {
                 row {
@@ -88,6 +81,17 @@ class Envelope(
                     }
                 }
             }
+        }
+    }
+
+    companion object {
+
+        val dateString = Date().let { date ->
+            "${date.getDate().let {
+                if (it < 10) "0$it" else it
+            }}.${(date.getMonth() + 1).let {
+                if (it < 10) "0$it" else it
+            }}.${date.getFullYear()}"
         }
     }
 }
