@@ -43,7 +43,9 @@ class BookDialog(
             boxView {
                 textView(t("cash-book"))
                 iconView(MaterialIcon.CLOSE) {
-                    hide()
+                    onClick {
+                        hide()
+                    }
                 }
             }
             boxView {

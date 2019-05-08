@@ -10,7 +10,7 @@ class Note(
         position: Int
 ) : ViewCollection<View>() {
     init {
-        imageView("images/note$value.jpg") {
+        imageView("images/note$value.png") {
             style {
                 val angle = (2.0 * MAX_ANGLE + 1) * 1.2.pow(-position)
                 transform = "rotate(${-angle + MAX_ANGLE}deg)"
