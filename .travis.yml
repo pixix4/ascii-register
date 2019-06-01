@@ -12,4 +12,4 @@ deploy:
   local_dir: web/website
   fqdn: cash.ascii.coffee
   on:
-    branch: gh-pages
+    branch: master
