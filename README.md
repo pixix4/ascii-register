@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pixix4/ascii-register.svg?branch=master)](https://travis-ci.org/pixix4/KObserve)
+
 # Ascii register
 
 ## Setup
