@@ -2,7 +2,7 @@ group = 'de.ascii'
 version = '1.0.0'
 
 buildscript {
-    ext.kotlin_version = '1.3.30'
+    ext.kotlin_version = '1.3.31'
     ext.web_path = 'web'
 
     repositories {
@@ -13,10 +13,12 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'org.ajoberstar:gradle-git-publish:2.1.1'
     }
 }
 
 apply plugin: "kotlin2js"
+apply plugin: 'org.ajoberstar.git-publish'
 
 repositories {
     jcenter()
@@ -25,7 +27,7 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    implementation "de.westermann:KObserve-js:0.9.1"
+    implementation "de.westermann:KObserve-js:0.9.3"
 }
 
 clean.doFirst() {
@@ -73,7 +75,16 @@ build.doLast() {
     }
 }
 
-task deploy(type: Copy) {
-    from 'web/website'
-    into '../pixix4.github.io/ascii'
+gitPublish {
+    repoUri = 'git@github.com:pixix4/ascii-register.git'
+
+    branch = 'gh-pages'
+
+    repoDir = file("$buildDir")
+
+    contents {
+        from 'web/website'
+    }
+
+    commitMessage = 'Publishing new version'
 }
