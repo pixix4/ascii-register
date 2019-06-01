@@ -8,9 +8,9 @@ script:
   - ./gradlew build
 deploy:
   provider: pages
+  skip_cleanup: true
   github_token: $GITHUB_TOKEN
-  local_dir: web/website/
+  local_dir: web/website
   fqdn: cash.ascii.coffee
-  verbose: true
   on:
     branch: master
