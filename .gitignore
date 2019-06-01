@@ -4,4 +4,3 @@ build/*
 .idea/*
 .gradle/*
 .fuse_hidden*
-package-lock.json
