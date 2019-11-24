@@ -32,6 +32,7 @@ class NoteGroup(
             classList += "note-button"
             textView("+") {
                 onClick {
+                    it.preventDefault()
                     if (editable.value) {
                         property.value += 1
                     }
@@ -39,6 +40,7 @@ class NoteGroup(
             }
             textView("-") {
                 onClick {
+                    it.preventDefault()
                     if (editable.value && property.value > 0) {
                         property.value -= 1
                     }

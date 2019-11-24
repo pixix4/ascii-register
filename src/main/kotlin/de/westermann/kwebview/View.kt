@@ -92,6 +92,11 @@ abstract class View(view: HTMLElement = createHtmlView()) {
     val onMouseEnter = EventHandler<MouseEvent>()
     val onMouseLeave = EventHandler<MouseEvent>()
 
+    val onTouchStart = EventHandler<TouchEvent>()
+    val onTouchEnd = EventHandler<TouchEvent>()
+    val onTouchMove = EventHandler<TouchEvent>()
+    val onTouchCancel = EventHandler<TouchEvent>()
+
     val onWheel = EventHandler<WheelEvent>()
 
     val onKeyDown = EventHandler<KeyboardEvent>()
@@ -111,6 +116,11 @@ abstract class View(view: HTMLElement = createHtmlView()) {
         onMouseUp.bind(view, "mouseup")
         onMouseEnter.bind(view, "mouseenter")
         onMouseLeave.bind(view, "mouseleave")
+
+        onTouchStart.bind(view, "touchstart")
+        onTouchEnd.bind(view, "touchend")
+        onTouchMove.bind(view, "touchmove")
+        onTouchCancel.bind(view, "touchcancel")
 
         onWheel.bind(view, "wheel")
 

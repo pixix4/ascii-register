@@ -5,9 +5,8 @@ import de.westermann.kobserve.Property
 import de.westermann.kobserve.ReadOnlyProperty
 import de.westermann.kobserve.event.EventListener
 import de.westermann.kobserve.property.mapBinding
-import de.westermann.kwebview.async
+import de.westermann.kwebview.*
 import de.westermann.kwebview.components.*
-import de.westermann.kwebview.format
 import org.w3c.dom.events.MouseEvent
 
 class CoinGroup(
@@ -64,26 +63,20 @@ class CoinGroup(
 
         val references = mutableListOf<EventListener<*>>()
 
-        val mousemove = lambda@{ event: MouseEvent ->
-            if (event.type == "mouseup" || event.buttons == 0.toShort()) {
-                references.forEach { it.detach() }
-                references.clear()
-            }
-
-            val mouse = event.pageY
-            val c0 = coins[0] ?: return@lambda
-            if (c0.offsetTopTotal + c0.clientHeight < mouse) {
+        fun updatemove(pageY: Double) {
+            val c0 = coins[0] ?: return
+            if (c0.offsetTopTotal + c0.clientHeight < pageY) {
                 property.value = 0
-                return@lambda
+                return
             }
 
             var max = c0
             for ((_, coin) in coins.entries.sortedBy { it.key }) {
                 val top = coin.offsetTopTotal
 
-                if (top < mouse) {
+                if (top < pageY) {
                     property.value = coin.position + 1
-                    return@lambda
+                    return
                 }
 
                 max = coin
@@ -92,12 +85,45 @@ class CoinGroup(
             property.value = max.position + 1
         }
 
+        val mousemove = lambda@{ event: MouseEvent ->
+            if (event.type == "mouseup" || event.buttons == 0.toShort()) {
+                references.forEach { it.detach() }
+                references.clear()
+            }
+
+            updatemove(event.pageY)
+        }
+
+        val touchmove = lambda@{ event: TouchEvent ->
+            val touches = event.touches.all()
+            if (event.type == "touchend" || event.type == "touchcancel" || touches.size != 1) {
+                references.forEach { it.detach() }
+                references.clear()
+            } else {
+                event.preventDefault()
+                // event.stopPropagation()
+            }
+
+            if (touches.size == 1) {
+                updatemove(touches[0].pageY)
+            }
+        }
+
         onMouseDown {
             if (editable.value) {
                 mousemove(it)
 
                 references += Body.onMouseMove.reference(mousemove)
                 references += Body.onMouseUp.reference(mousemove)
+            }
+        }
+        onTouchStart {
+            if (editable.value) {
+                touchmove(it)
+
+                references += Body.onTouchMove.reference(touchmove)
+                references += Body.onTouchEnd.reference(touchmove)
+                references += Body.onTouchCancel.reference(touchmove)
             }
         }
 
