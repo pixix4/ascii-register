@@ -1,0 +1,43 @@
+{
+  "reset": "Reset",
+  "back": "Back",
+  "history": "History",
+  "settings": "Settings",
+  "calculate": "Calculate",
+  "envelope": "Envelope",
+  "total": "Total",
+  "name": "Name",
+  "date": "Date",
+  "money": "Money",
+  "your_name": "Your name",
+  "target_cash": "Target cash",
+  "language": "Language",
+  "action": "Action",
+  "delete": "Delete",
+  "cash-book": "Cash book",
+  "sign": "Sign",
+  "second": {
+    "one": "{} second ago",
+    "many": "{} seconds ago"
+  },
+  "minute": {
+    "one": "{} minute ago",
+    "many": "{} minutes ago"
+  },
+  "hour": {
+    "one": "{} hour ago",
+    "many": "{} hours ago"
+  },
+  "day": {
+    "one": "{} day ago",
+    "many": "{} days ago"
+  },
+  "month": {
+    "one": "{} month ago",
+    "many": "{} months ago"
+  },
+  "year": {
+    "one": "{} year ago",
+    "many": "{} years ago"
+  }
+}

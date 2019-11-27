@@ -1,0 +1,43 @@
+{
+  "reset": "Zurücksetzen",
+  "back": "Zurück",
+  "history": "Verlauf",
+  "settings": "Einstellungen",
+  "calculate": "Berechnen",
+  "envelope": "Briefumschlag",
+  "total": "Summe",
+  "name": "Name",
+  "date": "Datum",
+  "money": "Betrag",
+  "your_name": "Dein Name",
+  "target_cash": "Zielbetrag",
+  "language": "Sprache",
+  "action": "Aktion",
+  "delete": "Löschen",
+  "cash-book": "Kassenbuch",
+  "sign": "Unterschrift",
+  "second": {
+    "one": "vor {} Sekunde",
+    "many": "vor {} Sekunden"
+  },
+  "minute": {
+    "one": "vor {} Minute",
+    "many": "vor {} Minuten"
+  },
+  "hour": {
+    "one": "vor {} Stunde",
+    "many": "vor {} Stunden"
+  },
+  "day": {
+    "one": "vor {} Tag",
+    "many": "vor {} Tage"
+  },
+  "month": {
+    "one": "vor {} Monat",
+    "many": "vor {} Monate"
+  },
+  "year": {
+    "one": "vor {} Jahr",
+    "many": "vor {} Jahre"
+  }
+}
