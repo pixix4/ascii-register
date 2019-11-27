@@ -117,10 +117,12 @@ abstract class View(view: HTMLElement = createHtmlView()) {
         onMouseEnter.bind(view, "mouseenter")
         onMouseLeave.bind(view, "mouseleave")
 
-        onTouchStart.bind(view, "touchstart")
-        onTouchEnd.bind(view, "touchend")
-        onTouchMove.bind(view, "touchmove")
-        onTouchCancel.bind(view, "touchcancel")
+        if (js("!!window.TouchEvent") == true) {
+            onTouchStart.bind(view, "touchstart")
+            onTouchEnd.bind(view, "touchend")
+            onTouchMove.bind(view, "touchmove")
+            onTouchCancel.bind(view, "touchcancel")
+        }
 
         onWheel.bind(view, "wheel")
 
